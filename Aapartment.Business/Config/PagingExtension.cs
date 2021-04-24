@@ -8,9 +8,9 @@ namespace Aapartment.Business.Config
 {
     public static class PagingExtension
     {
-        public static IQueryable<T> Paging<T,L>(this IQueryable<T> list, int pagesize, int page, Func<T, L> predicate)
+        public static IQueryable<T> Paging<T>(this IQueryable<T> list, int pagesize, int page)
         {
-            return list.OrderBy(a => predicate(a)).Skip(pagesize * page).Take(pagesize);
+            return list.Skip(pagesize * (page-1)).Take(pagesize);
         } 
     }
 }

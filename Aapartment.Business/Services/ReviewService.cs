@@ -29,7 +29,7 @@ namespace Aapartment.Business.Services
         public async Task<IEnumerable<ReviewDto>> GetAllPagedByApartmentIdAsync(int apartmentid, int pagesize, int pagenumber)
         {
             if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();
-            var reviews = await db.Reviews.Where(b => b.ApartmentId == apartmentid).Paging(pagesize, pagenumber, a => a.Created).ToListAsync();
+            var reviews = await db.Reviews.Where(b => b.ApartmentId == apartmentid).OrderBy(a => a.Created).Paging(pagesize, pagenumber).ToListAsync();
             return mapper.Map<List<ReviewDto>>(reviews);
         }
 

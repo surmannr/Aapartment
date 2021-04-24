@@ -29,14 +29,14 @@ namespace Aapartment.Business.Services
         public async Task<IEnumerable<RoomDto>> GetAllPagedAsync(int pagesize, int pagenumber)
         {
             if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();
-            var rooms = await db.Rooms.Paging(pagesize, pagenumber, a => a.RoomNumber).ToListAsync();
+            var rooms = await db.Rooms.OrderBy(a => a.RoomNumber).Paging(pagesize, pagenumber).ToListAsync();
             return mapper.Map<List<RoomDto>>(rooms);
         }
 
         public async Task<IEnumerable<RoomDto>> GetAllPagedByApartmentIdAsync(int apartmentid, int pagesize, int pagenumber)
         {
             if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();
-            var rooms = await db.Rooms.Where(b => b.ApartmentId == apartmentid).Paging(pagesize, pagenumber, a => a.RoomNumber).ToListAsync();
+            var rooms = await db.Rooms.Where(b => b.ApartmentId == apartmentid).OrderBy(a => a.RoomNumber).Paging(pagesize, pagenumber).ToListAsync();
             return mapper.Map<List<RoomDto>>(rooms);
         }
 

@@ -36,14 +36,14 @@ namespace Aapartment.Business.Services
         public async Task<IEnumerable<BookingDto>> GetAllPagedByUserIdAsync(int userid,int pagesize, int pagenumber)
         {
             if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();
-            var bookings = await db.Bookings.Where(b => b.UserId == userid).Paging(pagesize, pagenumber, a => a.StartDate).ToListAsync();
+            var bookings = await db.Bookings.Where(b => b.UserId == userid).OrderBy(a => a.StartDate).Paging(pagesize, pagenumber).ToListAsync();
             return mapper.Map<List<BookingDto>>(bookings);
         }
 
         public async Task<IEnumerable<BookingDto>> GetAllPagedAsync(int pagesize, int pagenumber)
         {
             if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();
-            var bookings = await db.Bookings.Paging(pagesize, pagenumber, a => a.StartDate).ToListAsync();
+            var bookings = await db.Bookings.OrderBy(a => a.StartDate).Paging(pagesize, pagenumber).ToListAsync();
             return mapper.Map<List<BookingDto>>(bookings);
         }
 

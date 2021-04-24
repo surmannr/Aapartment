@@ -8,12 +8,13 @@ using System.Text;
 
 namespace Aapartment.Dal
 {
-    public class AapartmentDbContext : IdentityDbContext<User, IdentityRole<int>, int>
+    public partial class AapartmentDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public DbSet<Apartment> Apartments { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<Service> Services { get; set; }
 
         public AapartmentDbContext(DbContextOptions options) : base(options)
         {
@@ -22,7 +23,7 @@ namespace Aapartment.Dal
         protected AapartmentDbContext()
         {
         }
-
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -37,14 +38,12 @@ namespace Aapartment.Dal
                     .HasMaxLength(200);
 
                 entity.Property(e => e.Description)
-                    .HasMaxLength(200);
+                    .HasMaxLength(2000);
 
                 entity.HasMany(e => e.Reviews)
                     .WithOne()
                     .OnDelete(DeleteBehavior.ClientCascade)
                     .HasConstraintName("FK_Apartments_Reviews");
-
-                entity.OwnsMany(e => e.Services);
 
                 entity.OwnsOne(e => e.Address);
 
@@ -168,6 +167,8 @@ namespace Aapartment.Dal
                     .OnDelete(DeleteBehavior.ClientCascade)
                     .HasConstraintName("FK_Users_Reviews");
             });
+
+            OnModelCreatingPartial(modelBuilder);
         }
     }
 }

@@ -34,6 +34,27 @@ namespace Aapartment.Web.Controller
             return Ok(apartment);
         }
 
+        [HttpPost]
+        public async Task<ActionResult<ApartmentDto>> Create([FromBody] ApartmentDto apartmentDto)
+        {
+            var apartment = await apartmentService.CreateAsync(apartmentDto);
+            return Ok(apartment);
+        }
 
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            await apartmentService.DeleteAsync(id);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<ActionResult<ApartmentDto>> Modify(int id, [FromBody] ApartmentDto apartmentDto)
+        {
+            var apartment = await apartmentService.ModifyAsync(id, apartmentDto);
+            return Ok(apartment);
+        }
     }
 }

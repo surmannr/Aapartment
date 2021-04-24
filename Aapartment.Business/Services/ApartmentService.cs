@@ -36,7 +36,7 @@ namespace Aapartment.Business.Services
         public async Task<IEnumerable<ApartmentDto>> GetAllPagedAsync(int pagesize, int pagenumber)
         {
             if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();
-            var apartments = await db.Apartments.Paging(pagesize,pagenumber,a => a.Name).ToListAsync();
+            var apartments = await db.Apartments.OrderBy(a => a.Name).Paging(pagesize,pagenumber).ToListAsync();
             return mapper.Map<List<ApartmentDto>>(apartments);
         }
 
