@@ -4,14 +4,16 @@ using Aapartment.Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Aapartment.Dal.Migrations
 {
     [DbContext(typeof(AapartmentDbContext))]
-    partial class AapartmentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210424164452_MoreSeed")]
+    partial class MoreSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,28 +50,28 @@ namespace Aapartment.Dal.Migrations
                         {
                             Id = 1,
                             Description = "Pretend you are lost in a magical forest as you perch on a log or curl up in the swinging chair. Soak in the tub, then fall asleep in a heavenly bedroom with cloud-painted walls and twinkling lights. And when you wake up, the espresso machine awaits.",
-                            ImageName = "alap1",
+                            ImageName = "2df10892-c209-4b94-9be3-d1499783ed2f",
                             Name = "Panama Hotel"
                         },
                         new
                         {
                             Id = 2,
                             Description = "Unwind at this stunning French Provencal beachside cottage. The house was lovingly built with stone floors, high-beamed ceilings, and antique details for a luxurious yet charming feel. Enjoy the sea and mountain views from the pool and lush garden. The house is located in the enclave of Llandudno Beach, a locals-only spot with unspoilt, fine white sand and curling surfing waves. Although shops and restaurants are only a five-minute drive away, the area feels peaceful and secluded.",
-                            ImageName = "alap2",
+                            ImageName = "00ee11fc-ea78-4528-9c9a-e4972bc78d41",
                             Name = "Mercur Hotel"
                         },
                         new
                         {
                             Id = 3,
                             Description = "Take an early morning stroll and enjoy the Trevi Fountain without the tourists. Wander around the historic streets while the city sleeps, then head back for a morning coffee at this urban-chic studio with a suspended loft bedroom.",
-                            ImageName = "alap3",
+                            ImageName = "f3b94ad5-c8e5-4840-a23f-a172df852c67",
                             Name = "Langmoon Hotel"
                         },
                         new
                         {
                             Id = 4,
                             Description = "Take an early morning stroll and enjoy the Trevi Fountain without the tourists. Wander around the historic streets while the city sleeps, then head back for a morning coffee at this urban-chic studio with a suspended loft bedroom.",
-                            ImageName = "alap4",
+                            ImageName = "ad5ee0eb-87e7-4923-8a0b-714c40a91c90",
                             Name = "Malaha Hotel"
                         });
                 });
@@ -122,36 +124,36 @@ namespace Aapartment.Dal.Migrations
                         new
                         {
                             Id = 1,
-                            EndDate = new DateTime(2021, 5, 6, 18, 54, 23, 862, DateTimeKind.Local).AddTicks(1487),
+                            EndDate = new DateTime(2021, 5, 6, 18, 44, 51, 836, DateTimeKind.Local).AddTicks(3914),
                             IsPaid = true,
                             NumberOfAdults = 3,
                             NumberOfChildren = 2,
                             RoomId = 2,
-                            StartDate = new DateTime(2021, 4, 28, 18, 54, 23, 859, DateTimeKind.Local).AddTicks(8075),
+                            StartDate = new DateTime(2021, 4, 28, 18, 44, 51, 834, DateTimeKind.Local).AddTicks(768),
                             SumPrice = 160300,
                             UserId = 2
                         },
                         new
                         {
                             Id = 2,
-                            EndDate = new DateTime(2021, 5, 4, 18, 54, 23, 862, DateTimeKind.Local).AddTicks(3287),
+                            EndDate = new DateTime(2021, 5, 4, 18, 44, 51, 836, DateTimeKind.Local).AddTicks(5830),
                             IsPaid = false,
                             NumberOfAdults = 2,
                             NumberOfChildren = 3,
                             RoomId = 5,
-                            StartDate = new DateTime(2021, 4, 29, 18, 54, 23, 862, DateTimeKind.Local).AddTicks(3258),
+                            StartDate = new DateTime(2021, 4, 29, 18, 44, 51, 836, DateTimeKind.Local).AddTicks(5801),
                             SumPrice = 260300,
                             UserId = 3
                         },
                         new
                         {
                             Id = 3,
-                            EndDate = new DateTime(2021, 5, 16, 18, 54, 23, 862, DateTimeKind.Local).AddTicks(3328),
+                            EndDate = new DateTime(2021, 5, 16, 18, 44, 51, 836, DateTimeKind.Local).AddTicks(5866),
                             IsPaid = true,
                             NumberOfAdults = 1,
                             NumberOfChildren = 0,
                             RoomId = 10,
-                            StartDate = new DateTime(2021, 5, 9, 18, 54, 23, 862, DateTimeKind.Local).AddTicks(3324),
+                            StartDate = new DateTime(2021, 5, 9, 18, 44, 51, 836, DateTimeKind.Local).AddTicks(5863),
                             SumPrice = 212330,
                             UserId = 4
                         });
@@ -199,7 +201,7 @@ namespace Aapartment.Dal.Migrations
                             Id = 1,
                             ApartmentId = 1,
                             Content = "One of the best apartment here.",
-                            Created = new DateTime(2021, 4, 24, 18, 54, 23, 862, DateTimeKind.Local).AddTicks(6663),
+                            Created = new DateTime(2021, 4, 24, 18, 44, 51, 836, DateTimeKind.Local).AddTicks(9173),
                             Stars = 4,
                             UserId = 2
                         },
@@ -208,7 +210,7 @@ namespace Aapartment.Dal.Migrations
                             Id = 2,
                             ApartmentId = 2,
                             Content = "There are a lot of bugs here!",
-                            Created = new DateTime(2021, 4, 24, 18, 54, 23, 862, DateTimeKind.Local).AddTicks(7478),
+                            Created = new DateTime(2021, 4, 24, 18, 44, 51, 837, DateTimeKind.Local).AddTicks(24),
                             Stars = 1,
                             UserId = 3
                         },
@@ -217,7 +219,7 @@ namespace Aapartment.Dal.Migrations
                             Id = 3,
                             ApartmentId = 3,
                             Content = "I could find a better place, but it's ok.",
-                            Created = new DateTime(2021, 4, 24, 18, 54, 23, 862, DateTimeKind.Local).AddTicks(7501),
+                            Created = new DateTime(2021, 4, 24, 18, 44, 51, 837, DateTimeKind.Local).AddTicks(51),
                             Stars = 3,
                             UserId = 4
                         });
@@ -691,7 +693,7 @@ namespace Aapartment.Dal.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "773e356d-72cd-4eae-a596-c5e6ab9de81d",
+                            ConcurrencyStamp = "82c857b1-ae7a-4eea-88e1-bcc1c0c866db",
                             Email = "bbotond25@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Botond",
@@ -707,7 +709,7 @@ namespace Aapartment.Dal.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7af39677-f97a-4cf5-b0c9-193b659fe039",
+                            ConcurrencyStamp = "f497a861-a303-40d0-8cb3-3498ce1b106e",
                             Email = "hmate@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Herczku",
@@ -723,7 +725,7 @@ namespace Aapartment.Dal.Migrations
                         {
                             Id = 4,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f60f3750-71c9-40ef-98ca-346ceaec4720",
+                            ConcurrencyStamp = "1f8b069c-a6c0-4f23-83eb-09509863f8a7",
                             Email = "kbela@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Kis",
@@ -769,14 +771,14 @@ namespace Aapartment.Dal.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "9353853e-371c-4f06-bb3f-76e55a41577b",
+                            ConcurrencyStamp = "ee079841-0983-4054-9b0c-44967ced958f",
                             Name = "ADMIN",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "8bdacaa9-6932-4abc-b67c-a5eea2b1d6b2",
+                            ConcurrencyStamp = "363f418f-2ae7-4b99-99e8-04c41c63d580",
                             Name = "GUEST",
                             NormalizedName = "GUEST"
                         });

@@ -40,6 +40,13 @@ namespace Aapartment.Business.Services
             return mapper.Map<List<ApartmentDto>>(apartments);
         }
 
+        public async Task<IEnumerable<ApartmentDto>> GetRecommendation(int pagesize, int pagenumber)
+        {
+            if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();
+            var apartments = await db.Apartments.OrderByDescending(a => a.Reviews.Average(b => b.Stars)).Paging(pagesize, pagenumber).ToListAsync();
+            return mapper.Map<List<ApartmentDto>>(apartments);
+        }
+
         public async Task<ApartmentDto> CreateAsync(ApartmentDto apartmentDto)
         {
             if (CheckIfValid(apartmentDto))

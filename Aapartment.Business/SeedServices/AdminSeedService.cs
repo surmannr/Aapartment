@@ -29,7 +29,8 @@ namespace Aapartment.Business.SeedServices
                     Email = "admin@aapartment.com",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     EmailConfirmed = true,
-                    UserName = "admin"
+                    UserName = "admin",
+                    LockoutEnabled = false
                 };
 
                 var createResult = await userManager.CreateAsync(user, "asd123ASD?");

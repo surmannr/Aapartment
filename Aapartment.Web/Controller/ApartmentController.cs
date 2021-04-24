@@ -27,6 +27,14 @@ namespace Aapartment.Web.Controller
         }
 
         [HttpGet]
+        [Route("recommendation")]
+        public async Task<ActionResult<IEnumerable<ApartmentDto>>> GetRecommendation([FromQuery] int size, [FromQuery] int page)
+        {
+            var apartmentlist = await apartmentService.GetRecommendation(size, page);
+            return Ok(apartmentlist);
+        }
+
+        [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<ApartmentDto>> GetById(int id)
         {

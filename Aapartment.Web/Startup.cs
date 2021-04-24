@@ -20,6 +20,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Aapartment.Web
@@ -94,13 +95,18 @@ namespace Aapartment.Web
                 //c.IncludeXmlComments(xmlPath);
             });
 
+            services.AddHttpClient("base", c =>
+            {
+                c.BaseAddress = new Uri("http://localhost:41873");
+            });
+
             services.AddMvc();
 
             services.AddProblemDetails(ConfigureProblemDetails)
                 .AddControllers()
                 .AddProblemDetailsConventions()
                 .AddJsonOptions(x => x.JsonSerializerOptions.IgnoreNullValues = true);
-
+            
             services.AddControllers();
 
             services.AddRazorPages();
@@ -132,7 +138,7 @@ namespace Aapartment.Web
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Aapartment");
                 c.RoutePrefix = "swagger";
             });
-
+            
             app.UseRouting();
 
             app.UseAuthorization();
@@ -149,6 +155,6 @@ namespace Aapartment.Web
             options.MapToStatusCode<DbNullException>(StatusCodes.Status404NotFound);
             options.MapToStatusCode<QueryParamsNullException>(StatusCodes.Status400BadRequest);
         }
-
+        
     }
 }

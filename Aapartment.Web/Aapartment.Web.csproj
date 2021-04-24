@@ -5,22 +5,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-    <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="5.4.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.14" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.14" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.14">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.1.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.3" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Aapartment.Business\Aapartment.Business.csproj" />
     <ProjectReference Include="..\Aapartment.Dal\Aapartment.Dal.csproj" />
   </ItemGroup>
-
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="10.1.1" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+		<PackageReference Include="Hellang.Middleware.ProblemDetails" Version="5.4.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.13" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.13" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.13" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.13">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.13" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.3" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.1.3" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.3" />
+		<PackageReference Include="System.Net.Http.Json" Version="3.2.1" />
+	</ItemGroup>
 </Project>

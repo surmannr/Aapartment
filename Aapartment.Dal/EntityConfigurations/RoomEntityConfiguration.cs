@@ -161,6 +161,56 @@ namespace Aapartment.Dal.EntityConfigurations
                     PricePerAdult = 5050,
                     PricePerChild = 2700,
                     RoomNumber = 105
+                },
+                new Room()
+                {
+                    Id = 16,
+                    ApartmentId = 4,
+                    IsAvailabe = true,
+                    MaxNumberOfPeople = 4,
+                    PricePerAdult = 5000,
+                    PricePerChild = 2400,
+                    RoomNumber = 101
+                },
+                new Room()
+                {
+                    Id = 17,
+                    ApartmentId = 4,
+                    IsAvailabe = true,
+                    MaxNumberOfPeople = 3,
+                    PricePerAdult = 5500,
+                    PricePerChild = 2450,
+                    RoomNumber = 102
+                },
+                new Room()
+                {
+                    Id = 18,
+                    ApartmentId = 4,
+                    IsAvailabe = false,
+                    MaxNumberOfPeople = 7,
+                    PricePerAdult = 5400,
+                    PricePerChild = 2000,
+                    RoomNumber = 103
+                },
+                new Room()
+                {
+                    Id = 19,
+                    ApartmentId = 4,
+                    IsAvailabe = true,
+                    MaxNumberOfPeople = 4,
+                    PricePerAdult = 6000,
+                    PricePerChild = 3400,
+                    RoomNumber = 104
+                },
+                new Room()
+                {
+                    Id = 20,
+                    ApartmentId = 4,
+                    IsAvailabe = true,
+                    MaxNumberOfPeople = 4,
+                    PricePerAdult = 5050,
+                    PricePerChild = 2700,
+                    RoomNumber = 105
                 }
             );
         }

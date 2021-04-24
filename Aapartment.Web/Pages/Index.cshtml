@@ -1,10 +1,24 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Aapartment";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center mt-5 mb-5">
+    <h1 class="display-2">@ViewData["Title"]</h1>
+</div>
+<div class="text-justify mb-3" style="text-align: justify; text-justify:inter-word">
+    <p>Searching for an apartment to rent can be stressful, but we’re lucky we have so many online resources available. Can you imagine having to solely depend on newspapers to find listings? Forget filters or price comparison tools—it would be a struggle just to find postings, period.</p>
+    <p>These days, the biggest hurdle is perhaps having too much information at our fingertips. Luckily, there’s an online rental platform for just about anyone—no matter where you live or what your level of experience is. Here are the best rental websites that offer a wide variety of tools, filters, and intel that will make your search a smoother (and more fun, we swear!) journey.</p>
+    <p>It’s easy to feel overwhelmed during the early stages of looking for a new apartment. You have to consider a handful of factors — neighborhood, amenities, roommates, fees – and after a while every apartment starts to look the same. Do you use a classified listing site like craigslist, drive around looking at for rent signs, or spend hours searching through facebook marketplace? How do you filter out vacation rental sites like VRBO, duplicate listings, student housing, or other irrelevant searches? Does it make sense to work with a real estate agent or broker, and risk paying a potentially high broker fee?</p>
+</div>
+<div class="d-flex justify-content-between pt-3">
+    @foreach (var apartment in @Model.Apartments)
+    {
+        <div class="col-md-3 col-sm-6 p-4 d-flex justify-content-center align-items-center flex-column">
+            <img style="object-fit:contain; max-width:100%;" src="~/images/@{@apartment.ImageName}.jpg " />
+            <p class="mt-2" style="font-size:16px">@apartment.Name , @apartment.Address.City</p>
+        </div>
+    }
+
 </div>
