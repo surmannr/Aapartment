@@ -1,10 +1,19 @@
 ﻿@page "/logout"
 @model LogoutModel
 @{
-    ViewData["Title"] = "Log out";
+    ViewData["Title"] = "Logout";
 }
 
-<header>
+<div class="container p-5 col-6 mt-5" style="background-color: #00203FFF; color: #ADEFD1FF; border-radius: 16px 16px">
     <h1>@ViewData["Title"]</h1>
-    <p>You have successfully logged out of the application.</p>
-</header>
+    <p>Are you sure you want to sign out?</p>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <p>You have successfully logged out of the application.</p>
+    }
+
+    <form method="post">
+        <button style="background-color:#ADEFD1FF;color: #00203FFF;" type="submit" class="btn btn-primary mt-3 w-100" formmethod="post" href="/logout">Logout</button>
+    </form>
+
+</div>

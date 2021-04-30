@@ -37,6 +37,13 @@ namespace Aapartment.Business.Services
             return mapper.Map<UserDto>(users);
         }
 
+        public async Task<User> GetByIdModelAsync(int id)
+        {
+            var users = await db.Users.Where(a => a.Id == id).FirstOrDefaultAsync();
+            if (users == null) throw new DbNullException();
+            return users;
+        }
+
         public async Task<IEnumerable<UserDto>> GetAllPagedAsync(int pagesize, int pagenumber)
         {
             if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();
@@ -52,9 +59,10 @@ namespace Aapartment.Business.Services
                 var user = mapper.Map<User>(userDto);
                 var result = await userManager.CreateAsync(user,userDto.Password);
                 if (!result.Succeeded) throw new DbNullException();
-                await userManager.AddToRoleAsync(user, Roles.Guest);
+                var currentUser = await userManager.FindByNameAsync(user.UserName);
+                await userManager.AddToRoleAsync(currentUser, Roles.Guest);
                 await db.SaveChangesAsync();
-                return mapper.Map<UserDto>(user);
+                return mapper.Map<UserDto>(currentUser);
 
             }
             else throw new QueryParamsNullException();
@@ -67,9 +75,10 @@ namespace Aapartment.Business.Services
                 var user = mapper.Map<User>(userDto);
                 var result = await userManager.CreateAsync(user, userDto.Password);
                 if (!result.Succeeded) throw new DbNullException();
-                await userManager.AddToRoleAsync(user, Roles.Admin);
+                var currentUser = await userManager.FindByNameAsync(user.UserName);
+                await userManager.AddToRoleAsync(currentUser, Roles.Admin);
                 await db.SaveChangesAsync();
-                return mapper.Map<UserDto>(user);
+                return mapper.Map<UserDto>(currentUser);
 
             }
             else throw new QueryParamsNullException();

@@ -1,4 +1,5 @@
-﻿using Aapartment.Business.Dto;
+﻿using Aapartment.Business.Config;
+using Aapartment.Business.Dto;
 using Aapartment.Business.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,22 +9,30 @@ using System.Threading.Tasks;
 
 namespace Aapartment.Web.Controller
 {
-    [Route("api/apartments")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class ApartmentController : ControllerBase
+    public class ApartmentsController : ControllerBase
     {
         private readonly IApartmentService apartmentService;
 
-        public ApartmentController(IApartmentService _apartmentService)
+        public ApartmentsController(IApartmentService _apartmentService)
         {
             apartmentService = _apartmentService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ApartmentDto>>> GetAll([FromQuery]int size, [FromQuery] int page)
+        public async Task<ActionResult<PagedResult<ApartmentDto>>> GetAll([FromQuery]int pageSize, [FromQuery] int pageNumber, [FromBody] List<string> filters)
         {
-            var apartmentlist = await apartmentService.GetAllPagedAsync(size, page);
+            var apartmentlist = await apartmentService.GetAllPagedAsync(pageSize, pageNumber, filters);
             return Ok(apartmentlist);
+        }
+
+        [HttpGet]
+        [Route("pagecount")]
+        public async Task<ActionResult<int>> GetPageCount([FromQuery] int size)
+        {
+            var count = await apartmentService.GetPageCounts(size);
+            return Ok(count);
         }
 
         [HttpGet]

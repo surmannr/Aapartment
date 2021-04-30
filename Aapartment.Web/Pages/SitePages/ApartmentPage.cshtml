@@ -1,0 +1,255 @@
+﻿@page "/apartment/{id:int}"
+@model Aapartment.Web.Pages.SitePages.ApartmentPageModel
+@{
+    ViewData["Title"] = Model.Apartment.Name;
+}
+
+<div class="container d-flex">
+
+    <div class="col-md-4">
+        <img  class="img-fluid rounded" src="/images/@{@Model.Apartment.ImageName}.jpg" />
+    </div>
+
+    <div class="col-md-8 d-flex flex-column justify-content-start ms-2 ps-4 pt-4 pe-4" style="background-color:#00203FFF; color: #c7ecee; padding-left: 2rem">
+        <h1 class="text-center display-2">@Model.Apartment.Name</h1>
+        <h3 class="text-center mb-4">@Model.Apartment.Address.City,&nbsp;@Model.Apartment.Address.Country</h3>
+        <hr class="mt-3 mb-3" />
+        <h6 class="mt-3">Description:</h6>
+        <p><em>@Model.Apartment.Description</em></p>
+        <hr class="mb-3" />
+        @if (Model.Apartment.Services != null && Model.Apartment.Services.Count() != 0)
+        {
+            <div class="d-flex gap-4">
+                @foreach (var service in Model.Apartment.Services)
+                {
+
+                    <p>@service.Name&nbsp;<i class="@service.Icon"></i></p>
+
+                }
+            </div>
+
+        }
+        else
+        {
+            <p><em>There is no information about the apartment services.</em></p>
+        }
+    </div>
+
+</div>
+
+<div class="container d-flex flex-column">
+    <h3 class="mt-4 mb-4 text-center display-4">Rooms:</h3>
+    <hr class="mt-2 mb-2" />
+    @if (Model.RoomsForApartment.Results != null && Model.RoomsForApartment.Results.Count() != 0)
+    {
+        <div class="row d-flex">
+
+            @foreach (var room in Model.RoomsForApartment.Results)
+            {
+                <div class="col-lg-3 mb-3 mt-2">
+                    <div class="card">
+                        <div class="card-header"><h3 id="roomnumber" class="card-title text-center display-5">@room.RoomNumber</h3></div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-borderless table-sm">
+                                    <tr>
+                                        <td class="align-middle"><p class="text-muted"><strong>Price for adult:</strong></p></td>
+                                        <td class="align-middle text-end"><p class="text-muted">@room.PricePerAdult$</p></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="align-middle"><p class="text-muted"><strong>Price for child:</strong></p></td>
+                                        <td class="align-middle text-end"><p class="text-muted">@room.PricePerChild$</p></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="align-middle"><p class="text-muted"><strong>Room capacity: </strong></p></td>
+                                        <td class="align-middle text-end"><p class="text-muted">@room.MaxNumberOfPeople</p></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            @if (room.IsAvailabe)
+                            {
+                                <button id="buttonForm" class="btn btn-secondary w-100" onclick="bookingFormClick(@room.RoomNumber)" type="button" data-bs-toggle="collapse" data-bs-target="#booking" aria-expanded="false" aria-controls="collapseExample">
+                                    Book
+                                </button>
+
+                            }
+                            else
+                            {
+                                <button class="btn btn-danger w-100" type="button" disabled> Not available</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <div class="collapse mb-4" id="booking">
+
+            <div class="card-header bg-danger p-3 text-light"><h2 id="bookingheader" class="text-center">Room number: </h2></div>
+            <div class="card card-body">
+
+                <form>
+                    <div class="row mb-3">
+                        <label for="inputBookStartDate" class="col-sm-6 col-form-label">Start date:</label>
+                        <div class="col-sm-6">
+                            <input type="date" class="form-control" id="inputBookStartDate">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputBookEndDate" class="col-sm-6 col-form-label">End date:</label>
+                        <div class="col-sm-6">
+                            <input type="date" class="form-control" id="inputBookEndDate">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputBookAdults" class="col-sm-6 col-form-label">Number of adults:</label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control" id="inputBookAdults">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputBookChildren" class="col-sm-6 col-form-label">Number of children:</label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control" id="inputBookChildren">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h5 class="mt-4 mb-4 text-center">There is no rooms for this apartment. Please contact us, if you want to book a room.</h5>
+    }
+    <paging total-records="Model.RoomsForApartment.AllResultsCount"
+            page-no="Model.RoomPageNumber"
+            page-size="Model.RoomPageSize"
+            max-displayed-pages="6"
+            page-size-nav-on-change="get"
+            query-string-key-page-no="roomPageNumber"
+            query-string-key-page-size="roomPageSize"
+            show-first-numbered-page="true"
+            show-last-numbered-page="true"
+            show-prev-next="true">
+
+    </paging>
+</div>
+
+<div class="container d-flex flex-column">
+    <h5 class="mt-4 mb-2 text-center display-4">Write a review:</h5>
+    <div class="row pt-4">
+        <form>
+            <div class="row mb-3 d-flex justify-content-center align-items-center">
+                <div class="col-sm-10">
+                    <textarea class="form-control" id="inputReviewContent"></textarea>
+                </div>
+            </div>
+            <div class="row mb-3 d-flex justify-content-center align-items-center">
+                <label for="inputReviewStars" class="col-sm-1 col-form-label">Rating:</label>
+                <div class="col-sm-4 d-flex justify-content-center align-items-center">
+                    <input type="range" class="form-range" min="1" max="5" value="0" onchange="ratingclick(this.value)" id="inputReviewStars">
+                </div>
+                <div class="col-sm-2 d-flex justify-content-center align-items-center" id="ratingicons">
+                    <i style="font-size: 1rem; color: #FDCC0D" class="bi bi-star m-1"></i>
+                    <i style="font-size: 1rem; color: #FDCC0D" class="bi bi-star m-1"></i>
+                    <i style="font-size: 1rem; color: #FDCC0D" class="bi bi-star m-1"></i>
+                    <i style="font-size: 1rem; color: #FDCC0D" class="bi bi-star m-1"></i>
+                    <i style="font-size: 1rem; color: #FDCC0D" class="bi bi-star m-1"></i>
+                </div>
+                <div class="col-sm-3 d-flex justify-content-center align-items-center">
+                    <button type="submit" class="btn btn-secondary mb-3 w-100">Send</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr class="mt-2 mb-2" />
+    <h3 class="mt-4 mb-4 text-center display-4">Reviews:</h3>
+    <hr class="mt-2 mb-2" />
+    <div class="row">
+        @if (Model.ReviewsForApartment != null && Model.ReviewsForApartment.Results.Count() != 0)
+        {
+        <div class="row d-flex">
+            @foreach (var review in Model.ReviewsForApartment.Results)
+            {
+
+            <div class="card mt-2 mb-2">
+                <div class="row">
+                    <div class="col-md-3" style="background-color:#f7f1e3">
+                        <div class="card-body d-flex flex-column align-content-center">
+                            <h2>@review.Name</h2>
+                            <h6>@review.Created.ToShortDateString()</h6>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card-body d-flex align-content-between h-100 flex-column">
+                            <p>@review.Content</p>
+                            <div class="d-flex">
+                                @for (int i = 0; i < review.Stars; i++)
+                                {
+                                    <i style="font-size: 1rem; color: #FDCC0D" class="bi bi-star-fill m-1"></i>
+                                }
+                                @for (int i = review.Stars; i < 5; i++)
+                                {
+                                    <i style="font-size: 1rem; color: #FDCC0D" class="bi bi-star m-1"></i>
+                                }
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            }
+        </div>
+                
+        }
+        else
+        {
+            <h5 class="mt-4 mb-4 text-center">There is no reviews for this apartment. Be the first reviewer!</h5>
+        }
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+    $(document).mouseup(function (e) {
+
+        e.stopPropagation();
+        var container = $("#booking");
+
+        // if the target of the click isn't the container nor a descendant of the container
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            container.collapse('hide');
+        }
+    });
+
+    function ratingclick(value) {
+
+        var ratingdiv = $("#ratingicons");
+        ratingdiv.empty();
+
+        for (i = 0; i < value; i++)
+        {
+            ratingdiv.append('<i style = "font-size: 1rem; color: #FDCC0D" class="bi bi-star-fill m-1" ></i>');
+        }
+        for (i = value; i < 5; i++)
+        {
+            ratingdiv.append('<i style="font-size: 1rem; color: #FDCC0D" class="bi bi-star m-1"></i>');
+        }
+
+    }
+
+    function bookingFormClick(roomnumber) {
+        var container = $("#booking");
+
+        // if the target of the click isn't the container nor a descendant of the container
+        if (!container.hasClass('in')) {
+            container.collapse('toggle');
+        }
+
+        $("#bookingheader").text("Room number is: " + roomnumber);
+
+
+    }
+</script>

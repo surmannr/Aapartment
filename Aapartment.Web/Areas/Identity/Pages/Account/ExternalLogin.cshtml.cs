@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Aapartment.Business.Constants;
 
 namespace Aapartment.Web.Areas.Identity.Pages.Account
 {
@@ -49,6 +50,12 @@ namespace Aapartment.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Required]
+            public string Username { get; set; }
+            [Required]
+            public string Firstname { get; set; }
+            [Required]
+            public string Lastname { get; set; }
             [Required]
             [EmailAddress]
             public string Email { get; set; }
@@ -122,7 +129,11 @@ namespace Aapartment.Web.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.Email, Email = Input.Email };
+                var user = new User { 
+                    UserName = Input.Username,
+                    Email = Input.Email,
+                    FirstName = Input.Firstname,
+                    LastName = Input.Lastname};
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -133,6 +144,7 @@ namespace Aapartment.Web.Areas.Identity.Pages.Account
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
                         var userId = await _userManager.GetUserIdAsync(user);
+                        await _userManager.AddToRoleAsync(user, Roles.Guest);
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                         var callbackUrl = Url.Page(
@@ -145,14 +157,15 @@ namespace Aapartment.Web.Areas.Identity.Pages.Account
                             $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
-                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        /*if (_userManager.Options.SignIn.RequireConfirmedAccount)
                         {
-                            return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
-                        }
+                            
+                        }*/
 
-                        await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
+                        //await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
 
-                        return LocalRedirect(returnUrl);
+                        //return LocalRedirect(returnUrl);
+                        return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
                     }
                 }
                 foreach (var error in result.Errors)

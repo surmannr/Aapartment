@@ -28,10 +28,18 @@ namespace Aapartment.Web.Controller
 
         [HttpGet]
         [Route("aid/{id}")]
-        public async Task<ActionResult<IEnumerable<RoomDto>>> GetAll(int id,[FromQuery] int size, [FromQuery] int page)
+        public async Task<ActionResult<IEnumerable<RoomDto>>> GetAllByApartmentId(int id,[FromQuery] int size, [FromQuery] int page)
         {
             var rooms = await roomService.GetAllPagedByApartmentIdAsync(id,size, page);
             return Ok(rooms);
+        }
+
+        [HttpGet]
+        [Route("aid/{id}/count")]
+        public async Task<ActionResult<int>> GetAllByApartmentIdCount(int id)
+        {
+            var roomscount = await roomService.GetAllCountByApartmentId(id);
+            return Ok(roomscount);
         }
 
         [HttpPost]

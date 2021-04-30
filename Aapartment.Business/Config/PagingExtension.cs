@@ -11,6 +11,11 @@ namespace Aapartment.Business.Config
         public static IQueryable<T> Paging<T>(this IQueryable<T> list, int pagesize, int page)
         {
             return list.Skip(pagesize * (page-1)).Take(pagesize);
-        } 
+        }
+
+        public static IEnumerable<T> PagingEnumerable<T>(this IEnumerable<T> list, int pagesize, int page)
+        {
+            return list.Skip(pagesize * (page - 1)).Take(pagesize);
+        }
     }
 }

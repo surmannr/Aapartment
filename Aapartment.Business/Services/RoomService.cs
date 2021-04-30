@@ -33,6 +33,12 @@ namespace Aapartment.Business.Services
             return mapper.Map<List<RoomDto>>(rooms);
         }
 
+        public async Task<int> GetAllCountByApartmentId(int apartmentid)
+        {
+            var rooms = await db.Rooms.Where(b => b.ApartmentId == apartmentid).OrderBy(a => a.RoomNumber).ToListAsync();
+            return rooms.Count();
+        }
+
         public async Task<IEnumerable<RoomDto>> GetAllPagedByApartmentIdAsync(int apartmentid, int pagesize, int pagenumber)
         {
             if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();

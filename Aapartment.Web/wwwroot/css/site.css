@@ -69,3 +69,28 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+.chip {
+    display: inline-block;
+    padding: 0 25px;
+    height: 50px;
+    font-size: 16px;
+    line-height: 50px;
+    border-radius: 25px;
+    background-color: #f1f1f1;
+}
+
+.closebtn {
+    padding-left: 10px;
+    color: #888;
+    font-weight: bold;
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.closebtn:hover {
+    color: #000;
+}
+.dropdown-item:hover {
+    background-color: #292b2c;
+}

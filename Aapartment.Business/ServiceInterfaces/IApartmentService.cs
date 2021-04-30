@@ -1,4 +1,5 @@
-﻿using Aapartment.Business.Dto;
+﻿using Aapartment.Business.Config;
+using Aapartment.Business.Dto;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,8 @@ namespace Aapartment.Business.ServiceInterfaces
     public interface IApartmentService
     {
         Task<ApartmentDto> GetByIdAsync(int id);
-        Task<IEnumerable<ApartmentDto>> GetAllPagedAsync(int pagesize, int pagenumber);
+        Task<int> GetPageCounts(int pagesize);
+        Task<PagedResult<ApartmentDto>> GetAllPagedAsync(int pagesize, int pagenumber, List<string> filters);
         Task<IEnumerable<ApartmentDto>> GetRecommendation(int pagesize, int pagenumber);
         Task<ApartmentDto> CreateAsync(ApartmentDto apartmentDto);
         Task DeleteAsync(int id);

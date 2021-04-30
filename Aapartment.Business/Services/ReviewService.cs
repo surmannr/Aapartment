@@ -29,8 +29,18 @@ namespace Aapartment.Business.Services
         public async Task<IEnumerable<ReviewDto>> GetAllPagedByApartmentIdAsync(int apartmentid, int pagesize, int pagenumber)
         {
             if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();
-            var reviews = await db.Reviews.Where(b => b.ApartmentId == apartmentid).OrderBy(a => a.Created).Paging(pagesize, pagenumber).ToListAsync();
-            return mapper.Map<List<ReviewDto>>(reviews);
+            var reviews = await db.Reviews.Where(b => b.ApartmentId == apartmentid).Include(r => r.User).OrderBy(a => a.Created).Paging(pagesize, pagenumber).ToListAsync();
+            var reviewDtos = mapper.Map<List<ReviewDto>>(reviews);
+            foreach(var r in reviewDtos)
+            {
+                var user = await db.Users.Where(u => u.Id == r.UserId).FirstOrDefaultAsync();
+                if(user != null)
+                {
+                    r.Name = user.FirstName + " " + user.LastName;
+                } 
+                else throw new DbNullException();
+            }
+            return reviewDtos;
         }
 
         public async Task<ReviewDto> CreateAsync(ReviewDto reviewDto)

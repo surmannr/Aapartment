@@ -10,6 +10,7 @@ namespace Aapartment.Business.ServiceInterfaces
     {
         Task<IEnumerable<RoomDto>> GetAllPagedAsync(int pagesize, int pagenumber);
         Task<IEnumerable<RoomDto>> GetAllPagedByApartmentIdAsync(int apartmentid, int pagesize, int pagenumber);
+        Task<int> GetAllCountByApartmentId(int apartmentid);
         Task<RoomDto> CreateAsync(RoomDto roomDto);
         Task DeleteAsync(int id);
         Task<RoomDto> ModifyAsync(int id, RoomDto roomDto);

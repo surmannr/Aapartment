@@ -13,6 +13,8 @@ namespace Aapartment.Business.Dto
         public string Description { get; set; }
         public Address Address { get; set; }
         public string ImageName { get; set; }
+
+        public int Ratings { get; set; }
         public List<Service> Services { get; set; }
     }
 }

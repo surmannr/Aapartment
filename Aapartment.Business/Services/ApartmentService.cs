@@ -24,27 +24,94 @@ namespace Aapartment.Business.Services
         {
             db = _db;
             mapper = _mapper;
+
         }
 
         public async Task<ApartmentDto> GetByIdAsync(int id)
         {
-            var apartment = await db.Apartments.Where(a => a.Id == id).FirstOrDefaultAsync();
+            var apartment = await db.Apartments.Where(a => a.Id == id).Include(x => x.Services).FirstOrDefaultAsync();
             if (apartment == null) throw new DbNullException();
             return mapper.Map<ApartmentDto>(apartment);
         }
 
-        public async Task<IEnumerable<ApartmentDto>> GetAllPagedAsync(int pagesize, int pagenumber)
+        public async Task<int> GetPageCounts(int pagesize)
+        {
+            var apartments = await db.Apartments.ToListAsync();
+            var totalPages = (int)Math.Ceiling((decimal)apartments.Count / (decimal)pagesize);
+            return totalPages;
+        }
+
+        public async Task<int> GetAverageCountByApartmentId(int apartmentid)
+        {
+            var reviews = await db.Reviews.Where(b => b.ApartmentId == apartmentid).ToListAsync();
+            if (reviews.Count() != 0)
+                return reviews.Sum(e => e.Stars) / reviews.Count();
+            else
+                return 0;
+        }
+
+        public async Task<PagedResult<ApartmentDto>> GetAllPagedAsync(int pagesize, int pagenumber, List<string> filters)
         {
             if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();
-            var apartments = await db.Apartments.OrderBy(a => a.Name).Paging(pagesize,pagenumber).ToListAsync();
-            return mapper.Map<List<ApartmentDto>>(apartments);
+
+            IEnumerable<ApartmentDto> apartments = Enumerable.Empty<ApartmentDto>();
+            IEnumerable<Apartment> apartmentsFiltered = Enumerable.Empty<Apartment>();
+
+            Func<Apartment, bool> filter =  apartment =>
+            {
+                foreach (string filt in filters)
+                {
+                    if (apartment.Name.ToLower().Contains(filt.ToLower())) return true;
+
+                }
+                return false;
+            };
+
+            if (filters.Count() != 0)
+            {
+                apartmentsFiltered = db.Apartments.Where(filter)
+                                            .OrderBy(a => a.Name);
+                apartments = apartmentsFiltered
+                                            .Skip(pagesize * (pagenumber - 1))
+                                            .Take(pagesize)
+                                            .Select(r =>  mapper.Map<ApartmentDto>(r))
+                                            .AsEnumerable();
+            } else
+            {
+                apartments = await db.Apartments.OrderBy(a => a.Name)
+                                               .Paging(pagesize, pagenumber)
+                                               .Select(r => mapper.Map<ApartmentDto>(r))
+                                               .ToListAsync();
+            }
+
+            var apartmentslistWithRating = apartments.ToList();
+            foreach (var a in apartmentslistWithRating)
+            {
+                a.Ratings = await GetAverageCountByApartmentId(a.Id);
+            }
+
+
+            PagedResult<ApartmentDto> result = new PagedResult<ApartmentDto>();
+            result.Results = apartmentslistWithRating;
+            result.PageSize = pagesize;
+            result.PageNumber = pagenumber;
+            if (filters.Count() == 0)
+                result.AllResultsCount = await db.Apartments.CountAsync();
+            else
+                result.AllResultsCount = apartmentsFiltered.Count();
+            return result;
         }
 
         public async Task<IEnumerable<ApartmentDto>> GetRecommendation(int pagesize, int pagenumber)
         {
             if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();
             var apartments = await db.Apartments.OrderByDescending(a => a.Reviews.Average(b => b.Stars)).Paging(pagesize, pagenumber).ToListAsync();
-            return mapper.Map<List<ApartmentDto>>(apartments);
+            var dtoApartments= mapper.Map<List<ApartmentDto>>(apartments);
+            for(int i = 0; i < dtoApartments.Count(); i++)
+            {
+                dtoApartments[i].Ratings = await GetAverageCountByApartmentId(apartments[i].Id);
+            }
+            return dtoApartments;
         }
 
         public async Task<ApartmentDto> CreateAsync(ApartmentDto apartmentDto)
