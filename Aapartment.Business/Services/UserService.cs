@@ -126,15 +126,15 @@ namespace Aapartment.Business.Services
             return mapper.Map<UserDto>(user);
         }
 
-        public async Task<UserDto> ModifyPasswordAsync(int id, string password)
+        public async Task<UserDto> ModifyPasswordAsync(int id, string currentPassword,string newpassword)
         {
             var user = await db.Users.Where(a => a.Id == id).FirstOrDefaultAsync();
             if (user == null) throw new DbNullException();
 
-            if (string.IsNullOrEmpty(password)) throw new QueryParamsNullException();
+            if (string.IsNullOrEmpty(currentPassword)) throw new QueryParamsNullException();
+            if (string.IsNullOrEmpty(newpassword)) throw new QueryParamsNullException();
 
-            await userManager.RemovePasswordAsync(user);
-            await userManager.AddPasswordAsync(user, password);
+            await userManager.ChangePasswordAsync(user, currentPassword, newpassword);
 
             await db.SaveChangesAsync();
             return mapper.Map<UserDto>(user);

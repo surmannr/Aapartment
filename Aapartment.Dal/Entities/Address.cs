@@ -8,7 +8,7 @@ namespace Aapartment.Dal.Entities
     [Owned]
     public class Address
     {
-        public int ApartmentId { get; set; }
+        public int? ApartmentId { get; set; }
         public string Country { get; set; }
         public int ZipCode { get; set; }
         public string City { get; set; }

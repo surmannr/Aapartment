@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aapartment.Dal.Migrations
 {
     [DbContext(typeof(AapartmentDbContext))]
-    [Migration("20210424164452_MoreSeed")]
-    partial class MoreSeed
+    [Migration("20210502140244_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,28 +50,28 @@ namespace Aapartment.Dal.Migrations
                         {
                             Id = 1,
                             Description = "Pretend you are lost in a magical forest as you perch on a log or curl up in the swinging chair. Soak in the tub, then fall asleep in a heavenly bedroom with cloud-painted walls and twinkling lights. And when you wake up, the espresso machine awaits.",
-                            ImageName = "2df10892-c209-4b94-9be3-d1499783ed2f",
+                            ImageName = "alap1.jpg",
                             Name = "Panama Hotel"
                         },
                         new
                         {
                             Id = 2,
                             Description = "Unwind at this stunning French Provencal beachside cottage. The house was lovingly built with stone floors, high-beamed ceilings, and antique details for a luxurious yet charming feel. Enjoy the sea and mountain views from the pool and lush garden. The house is located in the enclave of Llandudno Beach, a locals-only spot with unspoilt, fine white sand and curling surfing waves. Although shops and restaurants are only a five-minute drive away, the area feels peaceful and secluded.",
-                            ImageName = "00ee11fc-ea78-4528-9c9a-e4972bc78d41",
+                            ImageName = "alap2.jpg",
                             Name = "Mercur Hotel"
                         },
                         new
                         {
                             Id = 3,
                             Description = "Take an early morning stroll and enjoy the Trevi Fountain without the tourists. Wander around the historic streets while the city sleeps, then head back for a morning coffee at this urban-chic studio with a suspended loft bedroom.",
-                            ImageName = "f3b94ad5-c8e5-4840-a23f-a172df852c67",
+                            ImageName = "alap3.jpg",
                             Name = "Langmoon Hotel"
                         },
                         new
                         {
                             Id = 4,
                             Description = "Take an early morning stroll and enjoy the Trevi Fountain without the tourists. Wander around the historic streets while the city sleeps, then head back for a morning coffee at this urban-chic studio with a suspended loft bedroom.",
-                            ImageName = "ad5ee0eb-87e7-4923-8a0b-714c40a91c90",
+                            ImageName = "alap4.jpg",
                             Name = "Malaha Hotel"
                         });
                 });
@@ -95,7 +95,7 @@ namespace Aapartment.Dal.Migrations
                     b.Property<int>("NumberOfChildren")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoomId")
+                    b.Property<int?>("RoomId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
@@ -104,7 +104,7 @@ namespace Aapartment.Dal.Migrations
                     b.Property<int>("SumPrice")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int?>("UserId1")
@@ -124,36 +124,36 @@ namespace Aapartment.Dal.Migrations
                         new
                         {
                             Id = 1,
-                            EndDate = new DateTime(2021, 5, 6, 18, 44, 51, 836, DateTimeKind.Local).AddTicks(3914),
+                            EndDate = new DateTime(2021, 5, 14, 16, 2, 43, 933, DateTimeKind.Local).AddTicks(9018),
                             IsPaid = true,
                             NumberOfAdults = 3,
                             NumberOfChildren = 2,
                             RoomId = 2,
-                            StartDate = new DateTime(2021, 4, 28, 18, 44, 51, 834, DateTimeKind.Local).AddTicks(768),
+                            StartDate = new DateTime(2021, 5, 6, 16, 2, 43, 931, DateTimeKind.Local).AddTicks(7665),
                             SumPrice = 160300,
                             UserId = 2
                         },
                         new
                         {
                             Id = 2,
-                            EndDate = new DateTime(2021, 5, 4, 18, 44, 51, 836, DateTimeKind.Local).AddTicks(5830),
+                            EndDate = new DateTime(2021, 5, 12, 16, 2, 43, 934, DateTimeKind.Local).AddTicks(942),
                             IsPaid = false,
                             NumberOfAdults = 2,
                             NumberOfChildren = 3,
                             RoomId = 5,
-                            StartDate = new DateTime(2021, 4, 29, 18, 44, 51, 836, DateTimeKind.Local).AddTicks(5801),
+                            StartDate = new DateTime(2021, 5, 7, 16, 2, 43, 934, DateTimeKind.Local).AddTicks(924),
                             SumPrice = 260300,
                             UserId = 3
                         },
                         new
                         {
                             Id = 3,
-                            EndDate = new DateTime(2021, 5, 16, 18, 44, 51, 836, DateTimeKind.Local).AddTicks(5866),
+                            EndDate = new DateTime(2021, 5, 24, 16, 2, 43, 934, DateTimeKind.Local).AddTicks(989),
                             IsPaid = true,
                             NumberOfAdults = 1,
                             NumberOfChildren = 0,
                             RoomId = 10,
-                            StartDate = new DateTime(2021, 5, 9, 18, 44, 51, 836, DateTimeKind.Local).AddTicks(5863),
+                            StartDate = new DateTime(2021, 5, 17, 16, 2, 43, 934, DateTimeKind.Local).AddTicks(986),
                             SumPrice = 212330,
                             UserId = 4
                         });
@@ -166,7 +166,7 @@ namespace Aapartment.Dal.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ApartmentId")
+                    b.Property<int?>("ApartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
@@ -179,7 +179,7 @@ namespace Aapartment.Dal.Migrations
                     b.Property<int>("Stars")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int?>("UserId1")
@@ -201,7 +201,7 @@ namespace Aapartment.Dal.Migrations
                             Id = 1,
                             ApartmentId = 1,
                             Content = "One of the best apartment here.",
-                            Created = new DateTime(2021, 4, 24, 18, 44, 51, 836, DateTimeKind.Local).AddTicks(9173),
+                            Created = new DateTime(2021, 5, 2, 16, 2, 43, 934, DateTimeKind.Local).AddTicks(4734),
                             Stars = 4,
                             UserId = 2
                         },
@@ -210,7 +210,7 @@ namespace Aapartment.Dal.Migrations
                             Id = 2,
                             ApartmentId = 2,
                             Content = "There are a lot of bugs here!",
-                            Created = new DateTime(2021, 4, 24, 18, 44, 51, 837, DateTimeKind.Local).AddTicks(24),
+                            Created = new DateTime(2021, 5, 2, 16, 2, 43, 934, DateTimeKind.Local).AddTicks(5563),
                             Stars = 1,
                             UserId = 3
                         },
@@ -219,7 +219,7 @@ namespace Aapartment.Dal.Migrations
                             Id = 3,
                             ApartmentId = 3,
                             Content = "I could find a better place, but it's ok.",
-                            Created = new DateTime(2021, 4, 24, 18, 44, 51, 837, DateTimeKind.Local).AddTicks(51),
+                            Created = new DateTime(2021, 5, 2, 16, 2, 43, 934, DateTimeKind.Local).AddTicks(5587),
                             Stars = 3,
                             UserId = 4
                         });
@@ -232,7 +232,7 @@ namespace Aapartment.Dal.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ApartmentId")
+                    b.Property<int?>("ApartmentId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsAvailabe")
@@ -459,157 +459,6 @@ namespace Aapartment.Dal.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Aapartment.Dal.Entities.Service", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ApartmentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Icon")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApartmentId");
-
-                    b.ToTable("Services");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ApartmentId = 1,
-                            Icon = "fas fa-wifi",
-                            Name = "Free wifi"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ApartmentId = 1,
-                            Icon = "fas fa-paw",
-                            Name = "Pets allowed"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ApartmentId = 1,
-                            Icon = "fas fa-shuttle-van",
-                            Name = "Airport shuttle"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ApartmentId = 1,
-                            Icon = "fas fa-smoking-ban",
-                            Name = "Non-smoking rooms"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            ApartmentId = 1,
-                            Icon = "fas fa-users",
-                            Name = "Family rooms"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            ApartmentId = 1,
-                            Icon = "fas fa-umbrella-beach",
-                            Name = "Terrace"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            ApartmentId = 2,
-                            Icon = "fas fa-wifi",
-                            Name = "Free wifi"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            ApartmentId = 2,
-                            Icon = "fas fa-paw",
-                            Name = "Pets allowed"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            ApartmentId = 2,
-                            Icon = "fas fa-shuttle-van",
-                            Name = "Airport shuttle"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            ApartmentId = 2,
-                            Icon = "fas fa-smoking-ban",
-                            Name = "Non-smoking rooms"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            ApartmentId = 2,
-                            Icon = "fas fa-users",
-                            Name = "Family rooms"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            ApartmentId = 2,
-                            Icon = "fas fa-umbrella-beach",
-                            Name = "Terrace"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            ApartmentId = 3,
-                            Icon = "fas fa-wifi",
-                            Name = "Free wifi"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            ApartmentId = 3,
-                            Icon = "fas fa-paw",
-                            Name = "Pets allowed"
-                        },
-                        new
-                        {
-                            Id = 15,
-                            ApartmentId = 3,
-                            Icon = "fas fa-shuttle-van",
-                            Name = "Airport shuttle"
-                        },
-                        new
-                        {
-                            Id = 16,
-                            ApartmentId = 3,
-                            Icon = "fas fa-smoking-ban",
-                            Name = "Non-smoking rooms"
-                        },
-                        new
-                        {
-                            Id = 17,
-                            ApartmentId = 3,
-                            Icon = "fas fa-users",
-                            Name = "Family rooms"
-                        },
-                        new
-                        {
-                            Id = 18,
-                            ApartmentId = 3,
-                            Icon = "fas fa-umbrella-beach",
-                            Name = "Terrace"
-                        });
-                });
-
             modelBuilder.Entity("Aapartment.Dal.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -693,7 +542,7 @@ namespace Aapartment.Dal.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "82c857b1-ae7a-4eea-88e1-bcc1c0c866db",
+                            ConcurrencyStamp = "06949b32-2795-4898-9d94-ffea2ab7cd40",
                             Email = "bbotond25@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Botond",
@@ -709,7 +558,7 @@ namespace Aapartment.Dal.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f497a861-a303-40d0-8cb3-3498ce1b106e",
+                            ConcurrencyStamp = "d771ca90-faa8-4764-b911-c439944d3948",
                             Email = "hmate@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Herczku",
@@ -725,7 +574,7 @@ namespace Aapartment.Dal.Migrations
                         {
                             Id = 4,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1f8b069c-a6c0-4f23-83eb-09509863f8a7",
+                            ConcurrencyStamp = "9fb5fb53-7f3a-4852-8986-dfced3a77faa",
                             Email = "kbela@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Kis",
@@ -771,14 +620,14 @@ namespace Aapartment.Dal.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "ee079841-0983-4054-9b0c-44967ced958f",
+                            ConcurrencyStamp = "d4cc6f7a-62e5-47af-ad07-6865a86a5d0c",
                             Name = "ADMIN",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "363f418f-2ae7-4b99-99e8-04c41c63d580",
+                            ConcurrencyStamp = "c4dd6d60-5986-4a00-a2b3-862c50402178",
                             Name = "GUEST",
                             NormalizedName = "GUEST"
                         });
@@ -906,7 +755,7 @@ namespace Aapartment.Dal.Migrations
                 {
                     b.OwnsOne("Aapartment.Dal.Entities.Address", "Address", b1 =>
                         {
-                            b1.Property<int>("ApartmentId")
+                            b1.Property<int?>("ApartmentId")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -964,6 +813,158 @@ namespace Aapartment.Dal.Migrations
                                     ZipCode = 5504
                                 });
                         });
+
+                    b.OwnsMany("Aapartment.Dal.Entities.Service", "Services", b1 =>
+                        {
+                            b1.Property<int?>("ApartmentId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Icon")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Name")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("ApartmentId", "Id");
+
+                            b1.ToTable("Service");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ApartmentId");
+
+                            b1.HasData(
+                                new
+                                {
+                                    ApartmentId = 1,
+                                    Id = 1,
+                                    Icon = "fas fa-wifi",
+                                    Name = "Free wifi"
+                                },
+                                new
+                                {
+                                    ApartmentId = 1,
+                                    Id = 2,
+                                    Icon = "fas fa-paw",
+                                    Name = "Pets allowed"
+                                },
+                                new
+                                {
+                                    ApartmentId = 1,
+                                    Id = 3,
+                                    Icon = "fas fa-shuttle-van",
+                                    Name = "Airport shuttle"
+                                },
+                                new
+                                {
+                                    ApartmentId = 1,
+                                    Id = 4,
+                                    Icon = "fas fa-smoking-ban",
+                                    Name = "Non-smoking rooms"
+                                },
+                                new
+                                {
+                                    ApartmentId = 1,
+                                    Id = 5,
+                                    Icon = "fas fa-users",
+                                    Name = "Family rooms"
+                                },
+                                new
+                                {
+                                    ApartmentId = 1,
+                                    Id = 6,
+                                    Icon = "fas fa-umbrella-beach",
+                                    Name = "Terrace"
+                                },
+                                new
+                                {
+                                    ApartmentId = 2,
+                                    Id = 7,
+                                    Icon = "fas fa-wifi",
+                                    Name = "Free wifi"
+                                },
+                                new
+                                {
+                                    ApartmentId = 2,
+                                    Id = 8,
+                                    Icon = "fas fa-paw",
+                                    Name = "Pets allowed"
+                                },
+                                new
+                                {
+                                    ApartmentId = 2,
+                                    Id = 9,
+                                    Icon = "fas fa-shuttle-van",
+                                    Name = "Airport shuttle"
+                                },
+                                new
+                                {
+                                    ApartmentId = 2,
+                                    Id = 10,
+                                    Icon = "fas fa-smoking-ban",
+                                    Name = "Non-smoking rooms"
+                                },
+                                new
+                                {
+                                    ApartmentId = 2,
+                                    Id = 11,
+                                    Icon = "fas fa-users",
+                                    Name = "Family rooms"
+                                },
+                                new
+                                {
+                                    ApartmentId = 2,
+                                    Id = 12,
+                                    Icon = "fas fa-umbrella-beach",
+                                    Name = "Terrace"
+                                },
+                                new
+                                {
+                                    ApartmentId = 3,
+                                    Id = 13,
+                                    Icon = "fas fa-wifi",
+                                    Name = "Free wifi"
+                                },
+                                new
+                                {
+                                    ApartmentId = 3,
+                                    Id = 14,
+                                    Icon = "fas fa-paw",
+                                    Name = "Pets allowed"
+                                },
+                                new
+                                {
+                                    ApartmentId = 3,
+                                    Id = 15,
+                                    Icon = "fas fa-shuttle-van",
+                                    Name = "Airport shuttle"
+                                },
+                                new
+                                {
+                                    ApartmentId = 3,
+                                    Id = 16,
+                                    Icon = "fas fa-smoking-ban",
+                                    Name = "Non-smoking rooms"
+                                },
+                                new
+                                {
+                                    ApartmentId = 3,
+                                    Id = 17,
+                                    Icon = "fas fa-users",
+                                    Name = "Family rooms"
+                                },
+                                new
+                                {
+                                    ApartmentId = 3,
+                                    Id = 18,
+                                    Icon = "fas fa-umbrella-beach",
+                                    Name = "Terrace"
+                                });
+                        });
                 });
 
             modelBuilder.Entity("Aapartment.Dal.Entities.Booking", b =>
@@ -971,15 +972,12 @@ namespace Aapartment.Dal.Migrations
                     b.HasOne("Aapartment.Dal.Entities.Room", "Room")
                         .WithMany("Bookings")
                         .HasForeignKey("RoomId")
-                        .HasConstraintName("FK_Rooms_Bookings")
-                        .IsRequired();
+                        .HasConstraintName("FK_Rooms_Bookings");
 
                     b.HasOne("Aapartment.Dal.Entities.User", null)
                         .WithMany("Bookings")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_Users_Bookings")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
+                        .HasConstraintName("FK_Users_Bookings");
 
                     b.HasOne("Aapartment.Dal.Entities.User", "User")
                         .WithMany()
@@ -991,15 +989,12 @@ namespace Aapartment.Dal.Migrations
                     b.HasOne("Aapartment.Dal.Entities.Apartment", "Apartment")
                         .WithMany("Reviews")
                         .HasForeignKey("ApartmentId")
-                        .HasConstraintName("FK_Reviews_Apartments")
-                        .IsRequired();
+                        .HasConstraintName("FK_Reviews_Apartments");
 
                     b.HasOne("Aapartment.Dal.Entities.User", null)
                         .WithMany("Reviews")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_Users_Reviews")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
+                        .HasConstraintName("FK_Users_Reviews");
 
                     b.HasOne("Aapartment.Dal.Entities.User", "User")
                         .WithMany()
@@ -1011,17 +1006,7 @@ namespace Aapartment.Dal.Migrations
                     b.HasOne("Aapartment.Dal.Entities.Apartment", "Apartment")
                         .WithMany("Rooms")
                         .HasForeignKey("ApartmentId")
-                        .HasConstraintName("FK_Rooms_Apartments")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Aapartment.Dal.Entities.Service", b =>
-                {
-                    b.HasOne("Aapartment.Dal.Entities.Apartment", null)
-                        .WithMany("Services")
-                        .HasForeignKey("ApartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("FK_Rooms_Apartments");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

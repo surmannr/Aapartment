@@ -1,4 +1,5 @@
-﻿using Aapartment.Business.Dto;
+﻿using Aapartment.Business.Config;
+using Aapartment.Business.Dto;
 using Aapartment.Business.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -35,8 +36,8 @@ namespace Aapartment.Web.Controller
         }
 
         [HttpGet]
-        [Route("user/{id}")]
-        public async Task<ActionResult<IEnumerable<BookingDto>>> GetAllByUserId([FromQuery] int size, [FromQuery] int page, int userid)
+        [Route("user/{userid}")]
+        public async Task<ActionResult<PagedResult<BookingDto>>> GetAllByUserId([FromQuery] int size, [FromQuery] int page, int userid)
         {
             var bookings = await bookingService.GetAllPagedByUserIdAsync(userid,size, page);
             return Ok(bookings);

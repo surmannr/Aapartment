@@ -15,10 +15,10 @@ namespace Aapartment.Dal.Entities
         public int NumberOfAdults { get; set; }
         public int NumberOfChildren { get; set; }
 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public User User { get; set; }
 
-        public int RoomId { get; set; }
+        public int? RoomId { get; set; }
         public Room Room { get; set; }
     }
 }

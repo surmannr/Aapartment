@@ -1,4 +1,18 @@
 ﻿@page "/admin"
 @model Aapartment.Web.Pages.AdminSitePages.AdminModel
 @{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Admin main";
 }
+
+<div class="text-center mt-5 mb-5">
+    <h4 class="display-4">Welcome administrator @User.Identity.Name!</h4>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <img class="img-fluid" src="~/images/adminsite.png" alt="adminsite picture" />
+    </div>
+    
+</div>
+

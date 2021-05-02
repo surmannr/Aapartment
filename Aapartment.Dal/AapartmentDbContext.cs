@@ -14,7 +14,6 @@ namespace Aapartment.Dal
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Room> Rooms { get; set; }
-        public DbSet<Service> Services { get; set; }
 
         public AapartmentDbContext(DbContextOptions options) : base(options)
         {
@@ -42,14 +41,16 @@ namespace Aapartment.Dal
 
                 entity.HasMany(e => e.Reviews)
                     .WithOne()
-                    .OnDelete(DeleteBehavior.ClientCascade)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Apartments_Reviews");
 
                 entity.OwnsOne(e => e.Address);
 
+                entity.OwnsMany(e => e.Services);
+
                 entity.HasMany(e => e.Rooms)
                     .WithOne()
-                    .OnDelete(DeleteBehavior.ClientCascade)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Apartments_Rooms");
             });
 
@@ -159,12 +160,12 @@ namespace Aapartment.Dal
 
                 entity.HasMany(e => e.Bookings)
                     .WithOne()
-                    .OnDelete(DeleteBehavior.ClientCascade)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Users_Bookings");
 
                 entity.HasMany(e => e.Reviews)
                     .WithOne()
-                    .OnDelete(DeleteBehavior.ClientCascade)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Users_Reviews");
             });
 

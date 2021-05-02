@@ -84,9 +84,9 @@ namespace Aapartment.Web.Controller
 
         [HttpPatch]
         [Route("{id}/password")]
-        public async Task<ActionResult<UserDto>> ModifyPassword(int id, [FromBody] string password)
+        public async Task<ActionResult<UserDto>> ModifyPassword(int id, [FromBody] PasswordChangeDto password)
         {
-            var user = await userService.ModifyPasswordAsync(id, password);
+            var user = await userService.ModifyPasswordAsync(id, password.CurrentPassword, password.NewPassword);
             return Ok(user);
         }
     }

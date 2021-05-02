@@ -5,10 +5,11 @@ using System.Text;
 
 namespace Aapartment.Dal.Entities
 {
+    [Owned]
     public class Service
     {
         public int Id { get; set; }
-        public int ApartmentId { get; set; }
+        public int? ApartmentId { get; set; }
         public string Name { get; set; }
         public string Icon { get; set; }
     }

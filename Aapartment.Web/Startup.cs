@@ -152,6 +152,14 @@ namespace Aapartment.Web
                 .AddRefitClient<IReviewsApi>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(@"http://localhost:41873/api/reviews"));
 
+            services
+               .AddRefitClient<IBookingApi>()
+               .ConfigureHttpClient(c => c.BaseAddress = new Uri(@"http://localhost:41873/api/bookings"));
+
+            services
+              .AddRefitClient<IUserApi>()
+              .ConfigureHttpClient(c => c.BaseAddress = new Uri(@"http://localhost:41873/api/users"));
+
             services.AddHttpClient("base", c =>
             {
                 c.BaseAddress = new Uri("http://localhost:41873");

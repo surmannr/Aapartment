@@ -29,7 +29,7 @@ namespace Aapartment.Business.Services
 
         public async Task<ApartmentDto> GetByIdAsync(int id)
         {
-            var apartment = await db.Apartments.Where(a => a.Id == id).Include(x => x.Services).FirstOrDefaultAsync();
+            var apartment = await db.Apartments.Where(a => a.Id == id).Include(x => x.Services).Include(r => r.Rooms).FirstOrDefaultAsync();
             if (apartment == null) throw new DbNullException();
             return mapper.Map<ApartmentDto>(apartment);
         }
@@ -67,7 +67,7 @@ namespace Aapartment.Business.Services
                 return false;
             };
 
-            if (filters.Count() != 0)
+            if (filters.Count() != 0 && filters!=null)
             {
                 apartmentsFiltered = db.Apartments.Where(filter)
                                             .OrderBy(a => a.Name);
@@ -128,10 +128,32 @@ namespace Aapartment.Business.Services
 
         public async Task DeleteAsync(int id)
         {
-            var apartment = await db.Apartments.Where(a => a.Id == id).FirstOrDefaultAsync();
+            var apartment = await db.Apartments.Where(a => a.Id == id).Include(e => e.Reviews).Include(e => e.Rooms).ThenInclude(e => e.Bookings).FirstOrDefaultAsync();
             if (apartment == null) throw new DbNullException();
-            db.Apartments.Remove(apartment);
-            await db.SaveChangesAsync();
+
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                foreach(var room in apartment.Rooms)
+                {
+                    foreach(var booking in room.Bookings)
+                    {
+                        db.Bookings.Remove(booking);
+                    }
+                    db.Rooms.Remove(room);
+                }
+                
+                foreach(var review in apartment.Reviews)
+                {
+                    db.Reviews.Remove(review);
+                }
+
+                db.Apartments.Remove(apartment);
+
+                await db.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            
+            
         }
 
         public async Task<ApartmentDto> ModifyAsync(int id, ApartmentDto apartmentDto)

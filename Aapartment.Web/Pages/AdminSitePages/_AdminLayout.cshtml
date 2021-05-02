@@ -13,24 +13,20 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" style="background-color:#00203FFF">
             <div class="container">
-                <a class="navbar-brand" style="color: #ADEFD1FF" href="/"><h3>Aapartment</h3></a>
+                <a class="navbar-brand" style="color: #ADEFD1FF" asp-page="/AdminSitePages/Admin"><h3>Aapartment adminsite</h3></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-end text-right" id="navbarText">
                     <ul class="navbar-nav mb-2 mb-lg-0 text-right">
-                        @if (User.IsInRole(Aapartment.Business.Constants.Roles.Admin))
-                        {
-                            <li class="nav-item">
-                                <a href="/admin" class="nav-link" style="color: #ADEFD1FF"><b>Admin</b></a>
-                            </li>
-                        }
-
                         <li class="nav-item">
-                            <a asp-page="/SitePages/Apartments" class="nav-link" style="color: #ADEFD1FF"><b>Apartments</b></a>
+                            <a asp-page="/AdminSitePages/ApartmentManagement" class="nav-link" style="color: #ADEFD1FF"><b>Apartment management</b></a>
                         </li>
                         <li class="nav-item">
-                            <a asp-page="/SitePages/Recommendation" class="nav-link" style="color: #ADEFD1FF"><b>Recommendation</b></a>
+                            <a asp-page="/AdminSitePages/UserManagement" class="nav-link" style="color: #ADEFD1FF"><b>User management</b></a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-page="/AdminSitePages/BookingManagement" class="nav-link" style="color: #ADEFD1FF"><b>Booking management</b></a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" style="color: #ADEFD1FF" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -39,7 +35,6 @@
                             <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    <li class="nohover"><a class="dropdown-item" style="color: #ADEFD1FF" asp-page="/SitePages/MyBookings">My Bookings</a></li>
                                     <li class="nohover"><a class="dropdown-item" style="color: #ADEFD1FF" asp-page="/SitePages/ProfileSettings">Profile Settings</a></li>
                                     <li class="nohover"><a class="dropdown-item" style="color: #ADEFD1FF" href="/logout">Logout</a></li>
                                 }
@@ -47,7 +42,7 @@
                                 {
                                     <li class="nohover"><a class="dropdown-item" style="color: #ADEFD1FF" href="/login">Login</a></li>
                                 }
-
+                            <li class="nohover"><a class="dropdown-item" style="color: #ADEFD1FF" asp-page="/Index">Back to customersite</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -61,7 +56,7 @@
             @RenderBody()
         </main>
     </div>
-    
+
     <footer class="border-top footer text-muted" style="background-color:#00203FFF; color: #ADEFD1FF">
         <div class="container d-flex justify-content-between">
             <div style="color: #ADEFD1FF">

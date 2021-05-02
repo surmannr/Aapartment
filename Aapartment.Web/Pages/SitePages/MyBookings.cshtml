@@ -7,3 +7,72 @@
     <h4 class="display-4">@ViewData["Title"]</h4>
 </div>
 
+<div class="row">
+    @if (Model.Bookings != null && Model.Bookings.Results.Count() != 0)
+    {
+        @foreach (var booking in Model.Bookings.Results)
+        {
+            <div class="card mb-3">
+                <div class="row p-0">
+                    <div class="col-md-3 p-0">
+                        <img src="~/images/@{@booking.ApartmentImageName}" alt="Apartment picture" class="img-fluid">
+                    </div>
+
+                    <div class="col-md-9">
+                        <div class="card-body h-100 row d-flex flex-column justify-content-between">
+                            <div>
+                                <h2 class="card-title">@booking.ApartmentName</h2>
+                                <p class="card-text mb-3"><small class="text-muted">@booking.StartDate.ToString("yyyy.MM.dd.") - @booking.EndDate.ToString("yyyy.MM.dd.")</small></p>
+
+                            </div>
+
+                            <div style="height:auto">
+                                <h4 class="card-text mb-3">Room number: @booking.RoomNumber</h4>
+                                <ul>
+                                    <li>
+                                        <p>
+                                            Number of adults: @booking.NumberOfAdults
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Number of children: @booking.NumberOfChildren
+                                        </p>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                            <div style="height:auto">
+                                <h4>
+                                    @booking.SumPrice.ToString("N0")$ - @if (booking.IsPaid)
+                                    {<strong style="color:forestgreen">PAID</strong> }
+                                    else
+                                    { <strong style="color:darkred">NOT PAID</strong>}
+                                </h4>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <paging total-records="Model.Bookings.AllResultsCount"
+                page-no="Model.Bookings.PageNumber"
+                page-size="Model.Bookings.PageSize"
+                max-displayed-pages="8"
+                page-size-nav-on-change="get"
+                query-string-key-page-no="pagenumber"
+                query-string-key-page-size="pagesize"
+                show-first-numbered-page="true"
+                show-last-numbered-page="true"
+                show-prev-next="true">
+
+        </paging>
+    }
+    else
+    {
+        <h5 class="mt-4 mb-4 text-center">You haven't got any bookings. Go find your dream apartment!</h5>
+    }
+
+</div>

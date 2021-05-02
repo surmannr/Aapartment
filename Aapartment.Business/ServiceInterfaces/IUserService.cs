@@ -18,6 +18,6 @@ namespace Aapartment.Business.ServiceInterfaces
         Task<UserDto> ModifyEmailAsync(int id, string email);
         Task<UserDto> ModifyUserNameAsync(int id, string username);
         Task<UserDto> ModifyNameAsync(int id, string fname, string lname);
-        Task<UserDto> ModifyPasswordAsync(int id, string password);
+        Task<UserDto> ModifyPasswordAsync(int id, string currentPassword, string newpassword);
     }
 }

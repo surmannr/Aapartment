@@ -13,7 +13,6 @@ namespace Aapartment.Web.Pages.SitePages
 {
     public class ApartmentsModel : PageModel
     {
-        private readonly IHttpClientFactory _clientFactory;
         private readonly IApartmentsApi _apartmentsApi;
 
         private readonly string SessionKeyFilters = "_Filters";
@@ -36,11 +35,9 @@ namespace Aapartment.Web.Pages.SitePages
         [BindProperty]
         public string FilterText { get; set; }
         
-        public ApartmentsModel(IHttpClientFactory clientFactory, IApartmentsApi apartmentsApi)
+        public ApartmentsModel(IApartmentsApi apartmentsApi)
         {
-            _clientFactory = clientFactory;
             _apartmentsApi = apartmentsApi;
-            //_apartmentsApi = RestService.For<IApartmentsApi>("http://localhost:41873/api/apartments/");
         }
 
         public async Task OnGet(int pageNumber = 1, int pageSize = 20)

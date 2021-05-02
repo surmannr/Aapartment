@@ -15,6 +15,7 @@ namespace Aapartment.Business.Dto
         public string ImageName { get; set; }
 
         public int Ratings { get; set; }
-        public List<Service> Services { get; set; }
+        public HashSet<Service> Services { get; set; } = new HashSet<Service>();
+
     }
 }

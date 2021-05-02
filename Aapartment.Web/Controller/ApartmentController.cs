@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Aapartment.Web.Controller
 {
-    [Route("api/[controller]")]
+    [Route("api/apartments")]
     [ApiController]
     public class ApartmentsController : ControllerBase
     {

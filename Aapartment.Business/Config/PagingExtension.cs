@@ -17,5 +17,11 @@ namespace Aapartment.Business.Config
         {
             return list.Skip(pagesize * (page - 1)).Take(pagesize);
         }
+
+        public static List<T> PagingList<T>(this List<T> list, int pagesize, int page)
+        {
+            return (List<T>)list.Skip(pagesize * (page - 1)).Take(pagesize);
+        }
     }
 }
+

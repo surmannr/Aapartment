@@ -18,7 +18,7 @@ namespace Aapartment.Dal.Entities
         public int MaxNumberOfPeople { get; set; }
         public bool IsAvailabe { get; set; }
 
-        public int ApartmentId { get; set; }
+        public int? ApartmentId { get; set; }
         public Apartment Apartment { get; set; }
 
         public ICollection<Booking> Bookings { get; set; }

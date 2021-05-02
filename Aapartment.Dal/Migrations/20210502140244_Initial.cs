@@ -80,7 +80,7 @@ namespace Aapartment.Dal.Migrations
                     PricePerChild = table.Column<int>(nullable: false),
                     MaxNumberOfPeople = table.Column<int>(nullable: false),
                     IsAvailabe = table.Column<bool>(nullable: false),
-                    ApartmentId = table.Column<int>(nullable: false)
+                    ApartmentId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -94,7 +94,7 @@ namespace Aapartment.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Services",
+                name: "Service",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -105,9 +105,9 @@ namespace Aapartment.Dal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Services", x => x.Id);
+                    table.PrimaryKey("PK_Service", x => new { x.ApartmentId, x.Id });
                     table.ForeignKey(
-                        name: "FK_Services_Apartments_ApartmentId",
+                        name: "FK_Service_Apartments_ApartmentId",
                         column: x => x.ApartmentId,
                         principalTable: "Apartments",
                         principalColumn: "Id",
@@ -229,9 +229,9 @@ namespace Aapartment.Dal.Migrations
                     Stars = table.Column<int>(nullable: false),
                     Content = table.Column<string>(maxLength: 300, nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: true),
                     UserId1 = table.Column<int>(nullable: true),
-                    ApartmentId = table.Column<int>(nullable: false)
+                    ApartmentId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -268,9 +268,9 @@ namespace Aapartment.Dal.Migrations
                     IsPaid = table.Column<bool>(nullable: false),
                     NumberOfAdults = table.Column<int>(nullable: false),
                     NumberOfChildren = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: true),
                     UserId1 = table.Column<int>(nullable: true),
-                    RoomId = table.Column<int>(nullable: false)
+                    RoomId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -300,9 +300,10 @@ namespace Aapartment.Dal.Migrations
                 columns: new[] { "Id", "Description", "ImageName", "Name", "Address_City", "Address_Country", "Address_Street", "Address_ZipCode" },
                 values: new object[,]
                 {
-                    { 3, "Take an early morning stroll and enjoy the Trevi Fountain without the tourists. Wander around the historic streets while the city sleeps, then head back for a morning coffee at this urban-chic studio with a suspended loft bedroom.", "b61d0cf5-dd61-4b54-9f81-80bb312f77f0", "Langmoon Hotel", "Peking", "China", "Chicaego street 45", 11004 },
-                    { 2, "Unwind at this stunning French Provencal beachside cottage. The house was lovingly built with stone floors, high-beamed ceilings, and antique details for a luxurious yet charming feel. Enjoy the sea and mountain views from the pool and lush garden. The house is located in the enclave of Llandudno Beach, a locals-only spot with unspoilt, fine white sand and curling surfing waves. Although shops and restaurants are only a five-minute drive away, the area feels peaceful and secluded.", "57c4e158-e07c-459e-a724-9ef65ab4a0d0", "Mercur Hotel", "Madrid", "Spain", "Bueno street 45", 3424 },
-                    { 1, "Pretend you are lost in a magical forest as you perch on a log or curl up in the swinging chair. Soak in the tub, then fall asleep in a heavenly bedroom with cloud-painted walls and twinkling lights. And when you wake up, the espresso machine awaits.", "5789f5af-62ba-4361-a432-fccb268e1a90", "Panama Hotel", "New York", "USA", "Pearl street 72", 5504 }
+                    { 4, "Take an early morning stroll and enjoy the Trevi Fountain without the tourists. Wander around the historic streets while the city sleeps, then head back for a morning coffee at this urban-chic studio with a suspended loft bedroom.", "alap4.jpg", "Malaha Hotel", "Honolulu", "USA", "Upalu St street 3", 96705 },
+                    { 3, "Take an early morning stroll and enjoy the Trevi Fountain without the tourists. Wander around the historic streets while the city sleeps, then head back for a morning coffee at this urban-chic studio with a suspended loft bedroom.", "alap3.jpg", "Langmoon Hotel", "Peking", "China", "Chicaego street 45", 11004 },
+                    { 2, "Unwind at this stunning French Provencal beachside cottage. The house was lovingly built with stone floors, high-beamed ceilings, and antique details for a luxurious yet charming feel. Enjoy the sea and mountain views from the pool and lush garden. The house is located in the enclave of Llandudno Beach, a locals-only spot with unspoilt, fine white sand and curling surfing waves. Although shops and restaurants are only a five-minute drive away, the area feels peaceful and secluded.", "alap2.jpg", "Mercur Hotel", "Madrid", "Spain", "Bueno street 45", 3424 },
+                    { 1, "Pretend you are lost in a magical forest as you perch on a log or curl up in the swinging chair. Soak in the tub, then fall asleep in a heavenly bedroom with cloud-painted walls and twinkling lights. And when you wake up, the espresso machine awaits.", "alap1.jpg", "Panama Hotel", "New York", "USA", "Pearl street 72", 5504 }
                 });
 
             migrationBuilder.InsertData(
@@ -310,8 +311,8 @@ namespace Aapartment.Dal.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "2116fbb0-3c38-4841-b36f-9b07629e2d6a", "ADMIN", "ADMIN" },
-                    { 2, "658b7766-9d80-4986-a8d3-9ba7a555e628", "GUEST", "GUEST" }
+                    { 1, "d4cc6f7a-62e5-47af-ad07-6865a86a5d0c", "ADMIN", "ADMIN" },
+                    { 2, "c4dd6d60-5986-4a00-a2b3-862c50402178", "GUEST", "GUEST" }
                 });
 
             migrationBuilder.InsertData(
@@ -319,9 +320,9 @@ namespace Aapartment.Dal.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 2, 0, "bc57f428-e735-4ccf-baa8-dba15599cc54", "bbotond25@gmail.com", true, "Botond", "Barta", false, null, null, null, "AQAAAAEAACcQAAAAEMsPWENyxbGqK+PMv0F8Uv8/llEInzFl7oWMQAYeFYE73P5FPn9gMJGX0Q47dL1bbw==", "06/30-152-5123", false, null, false, "baaart" },
-                    { 3, 0, "9324bee8-474e-46eb-aafd-6b765cada70a", "hmate@gmail.com", true, "Herczku", "Máté", false, null, null, null, "AQAAAAEAACcQAAAAEMsPWENyxbGqK+PMv0F8Uv8/llEInzFl7oWMQAYeFYE73P5FPn9gMJGX0Q47dL1bbw==", "06/30-152-5123", false, null, false, "herczkum" },
-                    { 4, 0, "6cd3a24e-6a1b-4b57-b6cc-feace8dd4dd6", "kbela@gmail.com", true, "Kis", "Béla", false, null, null, null, "AQAAAAEAACcQAAAAEMsPWENyxbGqK+PMv0F8Uv8/llEInzFl7oWMQAYeFYE73P5FPn9gMJGX0Q47dL1bbw==", "06/30-152-5123", false, null, false, "kbela" }
+                    { 2, 0, "06949b32-2795-4898-9d94-ffea2ab7cd40", "bbotond25@gmail.com", true, "Botond", "Barta", false, null, null, null, "AQAAAAEAACcQAAAAEMsPWENyxbGqK+PMv0F8Uv8/llEInzFl7oWMQAYeFYE73P5FPn9gMJGX0Q47dL1bbw==", "06/30-152-5123", false, null, false, "baaart" },
+                    { 3, 0, "d771ca90-faa8-4764-b911-c439944d3948", "hmate@gmail.com", true, "Herczku", "Máté", false, null, null, null, "AQAAAAEAACcQAAAAEMsPWENyxbGqK+PMv0F8Uv8/llEInzFl7oWMQAYeFYE73P5FPn9gMJGX0Q47dL1bbw==", "06/30-152-5123", false, null, false, "herczkum" },
+                    { 4, 0, "9fb5fb53-7f3a-4852-8986-dfced3a77faa", "kbela@gmail.com", true, "Kis", "Béla", false, null, null, null, "AQAAAAEAACcQAAAAEMsPWENyxbGqK+PMv0F8Uv8/llEInzFl7oWMQAYeFYE73P5FPn9gMJGX0Q47dL1bbw==", "06/30-152-5123", false, null, false, "kbela" }
                 });
 
             migrationBuilder.InsertData(
@@ -339,9 +340,9 @@ namespace Aapartment.Dal.Migrations
                 columns: new[] { "Id", "ApartmentId", "Content", "Created", "Stars", "UserId", "UserId1" },
                 values: new object[,]
                 {
-                    { 3, 3, "I could find a better place, but it's ok.", new DateTime(2021, 4, 23, 15, 47, 3, 21, DateTimeKind.Local).AddTicks(300), 3, 4, null },
-                    { 2, 2, "There are a lot of bugs here!", new DateTime(2021, 4, 23, 15, 47, 3, 21, DateTimeKind.Local).AddTicks(277), 1, 3, null },
-                    { 1, 1, "One of the best apartment here.", new DateTime(2021, 4, 23, 15, 47, 3, 20, DateTimeKind.Local).AddTicks(9411), 4, 2, null }
+                    { 3, 3, "I could find a better place, but it's ok.", new DateTime(2021, 5, 2, 16, 2, 43, 934, DateTimeKind.Local).AddTicks(5587), 3, 4, null },
+                    { 2, 2, "There are a lot of bugs here!", new DateTime(2021, 5, 2, 16, 2, 43, 934, DateTimeKind.Local).AddTicks(5563), 1, 3, null },
+                    { 1, 1, "One of the best apartment here.", new DateTime(2021, 5, 2, 16, 2, 43, 934, DateTimeKind.Local).AddTicks(4734), 4, 2, null }
                 });
 
             migrationBuilder.InsertData(
@@ -356,55 +357,60 @@ namespace Aapartment.Dal.Migrations
                     { 1, 1, true, 4, 5000, 2400, 101 },
                     { 10, 2, true, 4, 5050, 2700, 105 },
                     { 9, 2, true, 4, 6000, 3400, 104 },
-                    { 11, 3, true, 4, 5000, 2400, 101 },
+                    { 8, 2, false, 7, 5400, 2000, 103 },
                     { 7, 2, true, 3, 5500, 2450, 102 },
                     { 6, 2, true, 4, 5000, 2400, 101 },
+                    { 16, 4, true, 4, 5000, 2400, 101 },
                     { 12, 3, true, 3, 5500, 2450, 102 },
-                    { 13, 3, false, 7, 5400, 2000, 103 },
-                    { 14, 3, true, 4, 6000, 3400, 104 },
+                    { 17, 4, true, 3, 5500, 2450, 102 },
+                    { 18, 4, false, 7, 5400, 2000, 103 },
+                    { 19, 4, true, 4, 6000, 3400, 104 },
+                    { 20, 4, true, 4, 5050, 2700, 105 },
                     { 15, 3, true, 4, 5050, 2700, 105 },
-                    { 8, 2, false, 7, 5400, 2000, 103 }
+                    { 14, 3, true, 4, 6000, 3400, 104 },
+                    { 13, 3, false, 7, 5400, 2000, 103 },
+                    { 11, 3, true, 4, 5000, 2400, 101 }
                 });
 
             migrationBuilder.InsertData(
-                table: "Services",
-                columns: new[] { "Id", "ApartmentId", "Icon", "Name" },
+                table: "Service",
+                columns: new[] { "ApartmentId", "Id", "Icon", "Name" },
                 values: new object[,]
                 {
-                    { 6, 1, "fas fa-umbrella-beach", "Terrace" },
-                    { 5, 1, "fas fa-users", "Family rooms" },
-                    { 4, 1, "fas fa-smoking-ban", "Non-smoking rooms" },
-                    { 3, 1, "fas fa-shuttle-van", "Airport shuttle" },
-                    { 2, 1, "fas fa-paw", "Pets allowed" },
+                    { 1, 6, "fas fa-umbrella-beach", "Terrace" },
+                    { 1, 5, "fas fa-users", "Family rooms" },
+                    { 1, 4, "fas fa-smoking-ban", "Non-smoking rooms" },
+                    { 1, 3, "fas fa-shuttle-van", "Airport shuttle" },
+                    { 1, 2, "fas fa-paw", "Pets allowed" },
                     { 1, 1, "fas fa-wifi", "Free wifi" },
-                    { 13, 3, "fas fa-wifi", "Free wifi" },
-                    { 15, 3, "fas fa-shuttle-van", "Airport shuttle" },
-                    { 16, 3, "fas fa-smoking-ban", "Non-smoking rooms" },
-                    { 17, 3, "fas fa-users", "Family rooms" },
-                    { 12, 2, "fas fa-umbrella-beach", "Terrace" },
-                    { 11, 2, "fas fa-users", "Family rooms" },
-                    { 18, 3, "fas fa-umbrella-beach", "Terrace" },
-                    { 9, 2, "fas fa-shuttle-van", "Airport shuttle" },
-                    { 8, 2, "fas fa-paw", "Pets allowed" },
-                    { 7, 2, "fas fa-wifi", "Free wifi" },
-                    { 14, 3, "fas fa-paw", "Pets allowed" },
-                    { 10, 2, "fas fa-smoking-ban", "Non-smoking rooms" }
+                    { 3, 17, "fas fa-users", "Family rooms" },
+                    { 2, 12, "fas fa-umbrella-beach", "Terrace" },
+                    { 2, 11, "fas fa-users", "Family rooms" },
+                    { 2, 10, "fas fa-smoking-ban", "Non-smoking rooms" },
+                    { 2, 9, "fas fa-shuttle-van", "Airport shuttle" },
+                    { 2, 8, "fas fa-paw", "Pets allowed" },
+                    { 3, 13, "fas fa-wifi", "Free wifi" },
+                    { 3, 14, "fas fa-paw", "Pets allowed" },
+                    { 3, 15, "fas fa-shuttle-van", "Airport shuttle" },
+                    { 3, 16, "fas fa-smoking-ban", "Non-smoking rooms" },
+                    { 3, 18, "fas fa-umbrella-beach", "Terrace" },
+                    { 2, 7, "fas fa-wifi", "Free wifi" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Bookings",
                 columns: new[] { "Id", "EndDate", "IsPaid", "NumberOfAdults", "NumberOfChildren", "RoomId", "StartDate", "SumPrice", "UserId", "UserId1" },
-                values: new object[] { 3, new DateTime(2021, 5, 15, 15, 47, 3, 20, DateTimeKind.Local).AddTicks(6109), true, 1, 0, 10, new DateTime(2021, 5, 8, 15, 47, 3, 20, DateTimeKind.Local).AddTicks(6106), 212330, 4, null });
+                values: new object[] { 3, new DateTime(2021, 5, 24, 16, 2, 43, 934, DateTimeKind.Local).AddTicks(989), true, 1, 0, 10, new DateTime(2021, 5, 17, 16, 2, 43, 934, DateTimeKind.Local).AddTicks(986), 212330, 4, null });
 
             migrationBuilder.InsertData(
                 table: "Bookings",
                 columns: new[] { "Id", "EndDate", "IsPaid", "NumberOfAdults", "NumberOfChildren", "RoomId", "StartDate", "SumPrice", "UserId", "UserId1" },
-                values: new object[] { 1, new DateTime(2021, 5, 5, 15, 47, 3, 20, DateTimeKind.Local).AddTicks(4271), true, 3, 2, 2, new DateTime(2021, 4, 27, 15, 47, 3, 18, DateTimeKind.Local).AddTicks(836), 160300, 2, null });
+                values: new object[] { 1, new DateTime(2021, 5, 14, 16, 2, 43, 933, DateTimeKind.Local).AddTicks(9018), true, 3, 2, 2, new DateTime(2021, 5, 6, 16, 2, 43, 931, DateTimeKind.Local).AddTicks(7665), 160300, 2, null });
 
             migrationBuilder.InsertData(
                 table: "Bookings",
                 columns: new[] { "Id", "EndDate", "IsPaid", "NumberOfAdults", "NumberOfChildren", "RoomId", "StartDate", "SumPrice", "UserId", "UserId1" },
-                values: new object[] { 2, new DateTime(2021, 5, 3, 15, 47, 3, 20, DateTimeKind.Local).AddTicks(6067), false, 2, 3, 5, new DateTime(2021, 4, 28, 15, 47, 3, 20, DateTimeKind.Local).AddTicks(6036), 260300, 3, null });
+                values: new object[] { 2, new DateTime(2021, 5, 12, 16, 2, 43, 934, DateTimeKind.Local).AddTicks(942), false, 2, 3, 5, new DateTime(2021, 5, 7, 16, 2, 43, 934, DateTimeKind.Local).AddTicks(924), 260300, 3, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -479,11 +485,6 @@ namespace Aapartment.Dal.Migrations
                 name: "IX_Rooms_ApartmentId",
                 table: "Rooms",
                 column: "ApartmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Services_ApartmentId",
-                table: "Services",
-                column: "ApartmentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -510,7 +511,7 @@ namespace Aapartment.Dal.Migrations
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "Services");
+                name: "Service");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

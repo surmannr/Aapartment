@@ -14,6 +14,9 @@ namespace Aapartment.Business.Dto
         public bool IsPaid { get; set; } = false;
         public int NumberOfAdults { get; set; }
         public int NumberOfChildren { get; set; }
+        public string ApartmentImageName { get; set; }
+        public string ApartmentName { get; set; }
+        public int RoomNumber { get; set; }
 
         public int UserId { get; set; }
         public int RoomId { get; set; }

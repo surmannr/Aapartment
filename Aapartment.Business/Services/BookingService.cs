@@ -33,11 +33,34 @@ namespace Aapartment.Business.Services
             return mapper.Map<BookingDto>(booking);
         }
 
-        public async Task<IEnumerable<BookingDto>> GetAllPagedByUserIdAsync(int userid,int pagesize, int pagenumber)
+        public async Task<PagedResult<BookingDto>> GetAllPagedByUserIdAsync(int userid,int pagesize, int pagenumber)
         {
             if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();
+
+            PagedResult<BookingDto> bookingsresult = new PagedResult<BookingDto>();
             var bookings = await db.Bookings.Where(b => b.UserId == userid).OrderBy(a => a.StartDate).Paging(pagesize, pagenumber).ToListAsync();
-            return mapper.Map<List<BookingDto>>(bookings);
+            var bookingsForCount = await db.Bookings.Where(b => b.UserId == userid).ToListAsync();
+
+            bookingsresult.AllResultsCount = bookingsForCount.Count();
+
+            var bookingsDto = mapper.Map<List<BookingDto>>(bookings);
+
+            foreach (var b in bookingsDto)
+            {
+                var room = await db.Rooms.Where(c => c.Id == b.RoomId).Include(a => a.Apartment).FirstOrDefaultAsync();
+                if(room != null)
+                {
+                    b.ApartmentName = room.Apartment.Name;
+                    b.RoomNumber = room.RoomNumber;
+                    b.ApartmentImageName = room.Apartment.ImageName;
+                }
+            }
+
+            bookingsresult.PageNumber = pagenumber;
+            bookingsresult.PageSize = pagesize;
+            bookingsresult.Results = bookingsDto;
+
+            return bookingsresult;
         }
 
         public async Task<IEnumerable<BookingDto>> GetAllPagedAsync(int pagesize, int pagenumber)

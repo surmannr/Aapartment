@@ -14,9 +14,9 @@ namespace Aapartment.Dal.Entities
         public string Content { get; set; }
         public DateTime Created { get; set; }
 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public User User { get; set; }
-        public int ApartmentId { get; set; }
+        public int? ApartmentId { get; set; }
         public Apartment Apartment { get; set; }
     }
 }
