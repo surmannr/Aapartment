@@ -1,6 +1,7 @@
 using Aapartment.Business.Config;
 using Aapartment.Business.Constants;
 using Aapartment.Business.Exceptions;
+using Aapartment.Business.Logger;
 using Aapartment.Business.SeedInterfaces;
 using Aapartment.Business.SeedServices;
 using Aapartment.Business.ServiceInterfaces;
@@ -21,9 +22,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using NLog;
 using Refit;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -34,6 +37,7 @@ namespace Aapartment.Web
     {
         public Startup(IConfiguration configuration)
         {
+            LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
         }
 
@@ -47,7 +51,11 @@ namespace Aapartment.Web
 
             services.AddIdentity<User, IdentityRole<int>>()
                 .AddEntityFrameworkStores<AapartmentDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddClaimsPrincipalFactory<MyUserClaimsPrincipalFactory>();
+
+            services.AddScoped<IUserClaimsPrincipalFactory<User>, MyUserClaimsPrincipalFactory>();
+            services.AddSingleton<ILoggerManager, LoggerManager>();
 
             services.Configure<IdentityOptions>(opts =>
             {
@@ -225,4 +233,5 @@ namespace Aapartment.Web
         }
         
     }
+
 }

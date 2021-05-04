@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Linq.Expressions;
 using Aapartment.Dal.Entities;
 using Aapartment.Business.ServiceInterfaces;
+using Aapartment.Business.Logger;
 
 namespace Aapartment.Business.Services
 {
@@ -19,18 +20,22 @@ namespace Aapartment.Business.Services
     {
         private readonly AapartmentDbContext db;
         private readonly IMapper mapper;
+        private readonly ILoggerManager logger;
 
-        public ApartmentService(AapartmentDbContext _db, IMapper _mapper)
+        public ApartmentService(AapartmentDbContext _db, IMapper _mapper, ILoggerManager logger)
         {
             db = _db;
             mapper = _mapper;
-
+            this.logger = logger;
         }
 
         public async Task<ApartmentDto> GetByIdAsync(int id)
         {
             var apartment = await db.Apartments.Where(a => a.Id == id).Include(x => x.Services).Include(r => r.Rooms).FirstOrDefaultAsync();
-            if (apartment == null) throw new DbNullException();
+            if (apartment == null) {
+                logger.LogError($"Error: apartment with id:{id} does not exist.");
+                throw new DbNullException();
+            }
             return mapper.Map<ApartmentDto>(apartment);
         }
 
@@ -52,7 +57,10 @@ namespace Aapartment.Business.Services
 
         public async Task<PagedResult<ApartmentDto>> GetAllPagedAsync(int pagesize, int pagenumber, List<string> filters)
         {
-            if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();
+            if (pagenumber <= 0 || pagesize <= 0) {
+                logger.LogError($"Error: paging failed - pagenumber: {pagenumber} && pagesize: {pagesize}");
+                throw new QueryParamsNullException();
+            } 
 
             IEnumerable<ApartmentDto> apartments = Enumerable.Empty<ApartmentDto>();
             IEnumerable<Apartment> apartmentsFiltered = Enumerable.Empty<Apartment>();
@@ -104,7 +112,10 @@ namespace Aapartment.Business.Services
 
         public async Task<IEnumerable<ApartmentDto>> GetRecommendation(int pagesize, int pagenumber)
         {
-            if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();
+            if (pagenumber <= 0 || pagesize <= 0) {
+                logger.LogError($"Error: paging failed - pagenumber: {pagenumber} && pagesize: {pagesize}");
+                throw new QueryParamsNullException();
+            }
             var apartments = await db.Apartments.OrderByDescending(a => a.Reviews.Average(b => b.Stars)).Paging(pagesize, pagenumber).ToListAsync();
             var dtoApartments= mapper.Map<List<ApartmentDto>>(apartments);
             for(int i = 0; i < dtoApartments.Count(); i++)
@@ -123,13 +134,19 @@ namespace Aapartment.Business.Services
                 await db.SaveChangesAsync();
                 return mapper.Map<ApartmentDto>(result.Entity);
             }
-            else throw new QueryParamsNullException();
+            else {
+                logger.LogError($"Validation failed for creating apartment.");
+                throw new QueryParamsNullException();
+            } 
         }
 
         public async Task DeleteAsync(int id)
         {
             var apartment = await db.Apartments.Where(a => a.Id == id).Include(e => e.Reviews).Include(e => e.Rooms).ThenInclude(e => e.Bookings).FirstOrDefaultAsync();
-            if (apartment == null) throw new DbNullException();
+            if (apartment == null) {
+                logger.LogError($"Error: apartment with id:{id} does not exist.");
+                throw new DbNullException();
+            } 
 
             using (var transaction = db.Database.BeginTransaction())
             {
@@ -161,7 +178,10 @@ namespace Aapartment.Business.Services
             if (CheckIfValid(apartmentDto))
             {
                 var apartment = await db.Apartments.Where(a => a.Id == id).FirstOrDefaultAsync();
-                if (apartment == null) throw new DbNullException();
+                if (apartment == null) {
+                    logger.LogError($"Error: apartment with id:{id} does not exist.");
+                    throw new DbNullException();
+                } 
                 apartment.Services = new List<Service>(apartmentDto.Services);
                 apartment.Name = apartmentDto.Name;
                 apartment.Address = apartmentDto.Address;
@@ -170,7 +190,10 @@ namespace Aapartment.Business.Services
                 await db.SaveChangesAsync();
                 return mapper.Map<ApartmentDto>(apartment);
             }
-            else throw new QueryParamsNullException();
+            else {
+                logger.LogError($"Validation failed for creating apartment.");
+                throw new QueryParamsNullException();
+            } 
         }
 
         public bool CheckIfValid(ApartmentDto apartment)

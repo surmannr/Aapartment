@@ -19,11 +19,12 @@ else
 }
 
 <form class="row g-3 p-5" method="post" enctype="multipart/form-data">
+
     <div class="col-sm-7">
         <input asp-for="Apartment.Name" type="text" class="form-control" placeholder="Name" aria-label="Name" name="Name">
     </div>
     <div class="col-sm-5">
-        <input class="form-control" type="file" id="formFile"  asp-for="Upload">
+        <input class="form-control" type="file" id="formFile" asp-for="Upload">
     </div>
     <div class="col-sm-12">
         <input asp-for="Apartment.Address.Street" type="text" class="form-control" placeholder="Street" aria-label="Street" name="Street">
@@ -43,40 +44,51 @@ else
             <label for="floatingTextarea2">Description</label>
         </div>
     </div>
-    @if(Model.Apartment.Services != null)
-    {
-        
+    <div class="p-3" style="background-color:#00203FFF; color: #c7ecee;">
+        @if (Model.Apartment.Services != null)
+        {
+
             @foreach (var service in Model.Apartment.Services)
             {
                 <div class="row justify-content-center mb-1" id="service-@service.Id">
-                    <div class="col-3">
+                    <div class="col-md-3 col-sm-auto">
                         @service.Name <i class="@service.Icon"></i>
                     </div>
-                    <div class="col-1">
+                    <div class="col-auto">
                         <button type="submit" class="btn btn-outline-danger" formmethod="post" asp-page-handler="RemoveService" asp-route-serviceid="@service.Id"><i class="fas fa-minus-circle"></i></button>
                     </div>
                 </div>
             }
-    }
-    <div class="row justify-content-center mt-3">
-        <div class="col-3">
-            <select class="form-select mb-3">
-                <option value="@Aapartment.Business.Constants.Services.Airport_NAME">@Aapartment.Business.Constants.Services.Airport_NAME</option>
-                <option value="@Aapartment.Business.Constants.Services.Family_NAME">@Aapartment.Business.Constants.Services.Family_NAME</option>
-                <option value="@Aapartment.Business.Constants.Services.FreeWifi_NAME">@Aapartment.Business.Constants.Services.FreeWifi_NAME</option>
-                <option value="@Aapartment.Business.Constants.Services.NonSmoking_NAME">@Aapartment.Business.Constants.Services.NonSmoking_NAME</option>
-                <option value="@Aapartment.Business.Constants.Services.Pets_NAME">@Aapartment.Business.Constants.Services.Pets_NAME</option>
-                <option value="@Aapartment.Business.Constants.Services.Terrace_NAME">@Aapartment.Business.Constants.Services.Terrace_NAME</option>
-            </select>
-        </div>
-        <div class="col-3">
-            <button type="submit" class="btn btn-outline-dark" formmethod="post" asp-page-handler="AddService">Add new service <i class="fas fa-plus"></i></button>
+        }
+        <div class="row justify-content-center mt-3">
+            <div class="col-auto">
+                <select class="form-select mb-3" asp-for="Service" asp-items="Model.ServiceList">
+                </select>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-outline-light" formmethod="post" asp-page-handler="AddService">Add new service <i class="fas fa-plus"></i></button>
+            </div>
         </div>
     </div>
 
-    <div class="col-auto">
-        <button type="submit" formmethod="post" asp-page-handler="CreateOrModify" class="btn btn-secondary mb-3">Create</button>
-    </div>
+    @if (Model.Id == null)
+    {
+        <div class="row justify-content-center d-flex mt-3">
+            <div class="col-auto ">
+                <button type="submit" formmethod="post" asp-page-handler="CreateOrModify" class="btn btn-secondary mb-3">Create</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row justify-content-center d-flex mt-3">
+            <div class="col-auto ">
+                <button type="submit" formmethod="post" asp-page-handler="CreateOrModify" class="btn btn-secondary mb-3">Modify</button>
+            </div>
+        </div>
+        
+    }
+
 </form>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

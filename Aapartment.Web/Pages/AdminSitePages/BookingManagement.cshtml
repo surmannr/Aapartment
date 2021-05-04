@@ -4,3 +4,118 @@
     Layout = "_AdminLayout";
     ViewData["Title"] = "Booking management";
 }
+
+<div class="text-center mt-5 mb-5">
+    <h4 class="display-4">@ViewData["Title"]</h4>
+</div>
+
+@if (Model.Bookings != null && Model.Bookings.Results.Count() != 0)
+{
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr class="table-dark">
+                <th scope="col">Id</th>
+                <th scope="col">Apartment name</th>
+                <th scope="col">Room number</th>
+                <th scope="col">Startdate</th>
+                <th scope="col">Enddate</th>
+                <th scope="col">Paid</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model.Bookings.Results)
+            {
+            <tr>
+                <td>@booking.Id</td>
+                <td>@booking.ApartmentName</td>
+                <td>@booking.RoomNumber</td>
+                <td>@booking.StartDate.ToString("yyyy.MM.dd.")</td>
+                <td>@booking.EndDate.ToString("yyyy.MM.dd.")</td>
+                @if (booking.IsPaid)
+                {
+                    <td>Yes</td>
+                }
+                else
+                {
+                    <td>No</td>
+                }
+
+                <td class="text-center">
+                    <a class="me-2 text-dark" asp-page="/AdminSitePages/EditBooking" asp-route-id="@booking.Id"><i class="fas fa-edit text-center"></i></a>
+                    <a class="text-danger" onclick="setSelectedId(@booking.Id)" data-bs-toggle="modal" data-bs-target="#Dialog"><i class="fas fa-minus-circle"></i></a>
+                </td>
+            </tr>
+
+            }
+
+        </tbody>
+    </table>
+}
+else
+{
+    <h5 class="display-5">There aren't any bookings in the database.</h5>
+}
+
+<paging total-records="Model.Bookings.AllResultsCount"
+        page-no="Model.Bookings.PageNumber"
+        page-size="Model.Bookings.PageSize"
+        max-displayed-pages="20"
+        page-size-nav-on-change="get"
+        query-string-key-page-no="pageNumber"
+        query-string-key-page-size="pageSize"
+        show-first-numbered-page="true"
+        show-last-numbered-page="true"
+        show-prev-next="true">
+
+</paging>
+
+<!-- Modal -->
+<div class="modal fade" id="Dialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen-md-down">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this item?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="deleteClick()">Proceed</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div aria-live="polite" aria-atomic="true" class="bg-danger position-relative bd-example-toasts ">
+    <div class="toast-container position-absolute top-0 start-50 translate-middle-x p-3" id="toastPlacement">
+        <div class="toast bg-danger">
+            <div class="toast-body" id="failedUserModify">
+                Hello, world! This is a toast message.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var selectedId = 0;
+
+    function setSelectedId(id) {
+        selectedId = id;
+        console.log(selectedId);
+    }
+
+    function deleteClick() {
+        $.ajax({
+            url: 'http://localhost:41873/api/bookings/' + selectedId,
+            method: 'DELETE',
+            success: function (result) {
+                location.reload();
+            },
+            error: function (error) {
+                $('#failedUserModify').text('Error: you can\'t delete this booking.')
+                $('.toast').toast('show');
+                console.log(error);
+            }
+        });
+    }
+</script>

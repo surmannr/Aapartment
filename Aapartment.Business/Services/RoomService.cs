@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Linq.Expressions;
 using Aapartment.Dal.Entities;
 using Aapartment.Business.ServiceInterfaces;
+using Aapartment.Business.Logger;
 
 namespace Aapartment.Business.Services
 {
@@ -19,16 +20,21 @@ namespace Aapartment.Business.Services
     {
         private readonly AapartmentDbContext db;
         private readonly IMapper mapper;
+        private readonly ILoggerManager logger;
 
-        public RoomService(AapartmentDbContext _db, IMapper _mapper)
+        public RoomService(AapartmentDbContext _db, IMapper _mapper, ILoggerManager logger)
         {
             db = _db;
             mapper = _mapper;
+            this.logger = logger;
         }
 
         public async Task<IEnumerable<RoomDto>> GetAllPagedAsync(int pagesize, int pagenumber)
         {
-            if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();
+            if (pagenumber <= 0 || pagesize <= 0) {
+                logger.LogError($"Error: paging failed - pagenumber: {pagenumber} && pagesize: {pagesize}");
+                throw new QueryParamsNullException();
+            } 
             var rooms = await db.Rooms.OrderBy(a => a.RoomNumber).Paging(pagesize, pagenumber).ToListAsync();
             return mapper.Map<List<RoomDto>>(rooms);
         }
@@ -41,7 +47,11 @@ namespace Aapartment.Business.Services
 
         public async Task<IEnumerable<RoomDto>> GetAllPagedByApartmentIdAsync(int apartmentid, int pagesize, int pagenumber)
         {
-            if (pagenumber <= 0 || pagesize <= 0) throw new QueryParamsNullException();
+            if (pagenumber <= 0 || pagesize <= 0)
+            {
+                logger.LogError($"Error: paging failed - pagenumber: {pagenumber} && pagesize: {pagesize}");
+                throw new QueryParamsNullException();
+            }
             var rooms = await db.Rooms.Where(b => b.ApartmentId == apartmentid).OrderBy(a => a.RoomNumber).Paging(pagesize, pagenumber).ToListAsync();
             return mapper.Map<List<RoomDto>>(rooms);
         }
@@ -51,7 +61,11 @@ namespace Aapartment.Business.Services
             if (CheckIfValid(roomDto))
             {
                 var apartment = await db.Apartments.Where(e => e.Id == roomDto.ApartmentId).FirstOrDefaultAsync();
-                if (apartment == null) throw new QueryParamsNullException("Nem létezik a szobához tartozó szálloda.");
+                if (apartment == null)
+                {
+                    logger.LogError($"Validation failed for creating review.");
+                    throw new QueryParamsNullException("Nem létezik a szobához tartozó szálloda.");
+                }
 
                 var room = mapper.Map<Room>(roomDto);
                 var result = db.Rooms.Add(room);
@@ -59,13 +73,19 @@ namespace Aapartment.Business.Services
                 return mapper.Map<RoomDto>(result.Entity);
 
             }
-            else throw new QueryParamsNullException();
+            else {
+                logger.LogError($"Validation failed for creating room.");
+                throw new QueryParamsNullException();
+            } 
         }
 
         public async Task DeleteAsync(int id)
         {
             var room = await db.Rooms.Where(a => a.Id == id).FirstOrDefaultAsync();
-            if (room == null) throw new DbNullException();
+            if (room == null) {
+                logger.LogError($"Error: room with id:{id} does not exist.");
+                throw new DbNullException();
+            } 
             db.Rooms.Remove(room);
             await db.SaveChangesAsync();
         }
@@ -75,10 +95,18 @@ namespace Aapartment.Business.Services
             if (CheckIfValid(roomDto))
             {
                 var room = await db.Rooms.Where(a => a.Id == id).FirstOrDefaultAsync();
-                if (room == null) throw new DbNullException();
+                if (room == null)
+                {
+                    logger.LogError($"Error: room with id:{id} does not exist.");
+                    throw new DbNullException();
+                }
 
                 var apartment = await db.Rooms.Where(a => a.Id == room.ApartmentId).FirstOrDefaultAsync();
-                if (apartment == null) throw new DbNullException();
+                if (apartment == null)
+                {
+                    logger.LogError($"Error: apartment with id:{room.ApartmentId} does not exist.");
+                    throw new DbNullException();
+                }
 
                 room.IsAvailabe = roomDto.IsAvailabe;
                 room.MaxNumberOfPeople = roomDto.MaxNumberOfPeople;
@@ -89,13 +117,21 @@ namespace Aapartment.Business.Services
                 await db.SaveChangesAsync();
                 return mapper.Map<RoomDto>(room);
             }
-            else throw new QueryParamsNullException();
+            else
+            {
+                logger.LogError($"Validation failed for creating room.");
+                throw new QueryParamsNullException();
+            }
         }
 
         public async Task<RoomDto> ModifyAvailableAsync(int id, bool available)
         {
             var room = await db.Rooms.Where(a => a.Id == id).FirstOrDefaultAsync();
-            if (room == null) throw new DbNullException();
+            if (room == null)
+            {
+                logger.LogError($"Error: room with id:{id} does not exist.");
+                throw new DbNullException();
+            }
 
             room.IsAvailabe = available;
 
@@ -111,6 +147,12 @@ namespace Aapartment.Business.Services
             if (room.MaxNumberOfPeople <= 0) return false;
             if (room.ApartmentId <= 0) return false;
             return true;
+        }
+
+        public async Task<IEnumerable<RoomDto>> GetAllByApartmentIdAsync(int apartmentid)
+        {
+            var rooms = await db.Rooms.Where(b => b.ApartmentId == apartmentid).OrderBy(a => a.RoomNumber).ToListAsync();
+            return mapper.Map<List<RoomDto>>(rooms);
         }
     }
 }

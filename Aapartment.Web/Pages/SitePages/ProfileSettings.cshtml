@@ -81,6 +81,8 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+    var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    var passwordformat = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{8,}$/
 
     const usernameEditTemplate = '<div class="p-0 col-md-3 d-flex align-items-center" style="border: solid #00203FFF"><input type="text" placeholder="Username" class="form-control" id="usernameValue" /></div>';
     const usernameEditButton = '<div class="col-md-2 d-flex align-items-center justify-content-center" style="background-color: #00203FFF; color: #c7ecee;"><a class="btn" onclick="changeUsername()"> <i class="fas fa-check text-center" style="color: #c7ecee;"></i></a><a onclick="cancel()"><i class="fas fa-minus-circle"></i></a></div>';
@@ -163,6 +165,13 @@
 
     function changeEmail() {
         const email = $("#emailValue").val();
+
+        if (!email.match(mailformat)) {
+            $('#failedUserModify').text("Please enter a valid email.");
+            $('.toast').toast('show');
+            return;
+        }
+
         $.ajax({
             url: 'http://localhost:41873/api/users/' + @Model.CurrentUser.Id + '/email?email=' + email,
             method: 'PATCH',
@@ -181,6 +190,12 @@
         const currentpassword = $("#usernameIdCurrentPassword").val();
         const newpassword = $("#usernameIdNewPassword").val();
         const newpasswordagain = $("#usernameIdNewPasswordAgain").val();
+
+        if (!newpassword.match(passwordformat)) {
+            $('#failedUserModify').text("Error: 8 character, Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.");
+            $('.toast').toast('show');
+            return;
+        }
 
         if (newpassword != newpasswordagain) {
             $('#failedUserModify').text("Error: the passwords you enter doesn't match.");

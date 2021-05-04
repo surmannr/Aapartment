@@ -14,7 +14,7 @@ namespace Aapartment.Web.Refit
         Task<BookingDto> GetById(int id);
 
         [Get("")]
-        Task<IEnumerable<BookingDto>> GetAll([Query] int size, [Query] int page);
+        Task<PagedResult<BookingDto>> GetAll([Query] int size, [Query] int page);
 
         [Get("/user/{userid}")]
         Task<PagedResult<BookingDto>> GetAllByUserId([Query] int size, [Query] int page, int userid);

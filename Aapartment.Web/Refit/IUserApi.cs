@@ -1,4 +1,5 @@
-﻿using Aapartment.Business.Dto;
+﻿using Aapartment.Business.Config;
+using Aapartment.Business.Dto;
 using Refit;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Aapartment.Web.Refit
     public interface IUserApi
     {
         [Get("")]
-        Task<IEnumerable<UserDto>> GetAll([Query] int size, [Query] int page);
+        Task<PagedResult<UserDto>> GetAll([Query] int size, [Query] int page);
 
         [Get("/{id}")]
         Task<UserDto> GetById(int id);

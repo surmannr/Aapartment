@@ -1,0 +1,109 @@
+﻿@page "/admin/new-admin"
+@model Aapartment.Web.Pages.AdminSitePages.CreateAdminModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Admin registration";
+}
+<div class="container p-5 col-6 mt-2" style="background-color: #00203FFF; color: #ADEFD1FF; border-radius: 16px 16px">
+    <h1>@ViewData["Title"]</h1>
+    <h4>Create a new account.</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-12 mt-2 mb-2">
+            <form method="post" onsubmit="return false;">
+
+                <div class="text-danger"></div>
+                <div class="form-group">
+                    <label class="mt-2 mb-2">Username</label>
+                    <input id="username" class="form-control mt-2 mb-2" required />
+                </div>
+                <div class="form-group">
+                    <label class="mt-2 mb-2">Email:</label>
+                    <input id="email" type="email" class="form-control mt-2 mb-2" required />
+                </div>
+                <div class="form-group">
+                    <label class="mt-2 mb-2">Firstname:</label>
+                    <input id="firstname" class="form-control mt-2 mb-2" required />
+                </div>
+                <div class="form-group">
+                    <label class="mt-2 mb-2">Lastname:</label>
+                    <input id="lastname" class="form-control mt-2 mb-2" required />
+                </div>
+                <div class="form-group">
+                    <label class="mt-2 mb-2">Password:</label>
+                    <input id="password" type="password" class="form-control mt-2 mb-2" required />
+                </div>
+                <div class="form-group">
+                    <label class="mt-2 mb-2">Confirm password:</label>
+                    <input id="confirmpassword" type="password" class="form-control mt-2 mb-2" required />
+                </div>
+                <button style="background-color:#ADEFD1FF; color: #00203FFF;" type="submit" onclick="createAdmin()" class="btn btn-primary w-100 mt-2 mb-2">Register</button>
+            </form>
+        </div>
+    </div>
+    <div aria-live="polite" aria-atomic="true" class="bg-danger position-relative bd-example-toasts ">
+        <div class="toast-container position-absolute top-0 start-50 translate-middle-x p-3" id="toastPlacement">
+            <div class="toast bg-danger">
+                <div class="toast-body" id="failedUserModify">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    var passwordformat = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{8,}$/
+    function createAdmin() {
+        var username = $('#username').val();
+        var email = $('#email').val();
+        var firstname = $('#firstname').val();
+        var lastname = $('#lastname').val();
+        var password = $('#password').val();
+        var confirmpassword = $('#confirmpassword').val();
+
+        if (!email.match(mailformat)) {
+            $('#failedUserModify').text("Error: the email is not valid.");
+            $('.toast').toast('show');
+            return;
+        }
+
+        if (!password.match(passwordformat)) {
+            $('#failedUserModify').text("Error: the password is not valid. Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.");
+            $('.toast').toast('show');
+            return;
+        }
+
+        if (password != confirmpassword) {
+            $('#failedUserModify').text("Error: the passwords you enter doesn't match.");
+            $('.toast').toast('show');
+            return;
+        }
+
+        var admin = {
+            userName: username,
+            password: password,
+            email: email,
+            firstName: firstname,
+            lastName: lastname
+        }
+
+        $.ajax({
+            url: 'http://localhost:41873/api/users/admin',
+            method: 'POST',
+            data: JSON.stringify(admin),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (result) {
+                window.location.href = "/admin/user-management";
+            },
+            error: function (error) {
+                $('#failedUserModify').text('Error: cannot create the admin. Check your data and try again.')
+                $('.toast').toast('show');
+                console.log(error);
+            }
+        });
+
+    }
+</script>

@@ -11,7 +11,7 @@ namespace Aapartment.Business.Dto
 
         public string Name { get; set; }
         public string Description { get; set; }
-        public Address Address { get; set; }
+        public Address Address { get; set; } = new Address();
         public string ImageName { get; set; }
 
         public int Ratings { get; set; }

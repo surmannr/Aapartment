@@ -1,4 +1,5 @@
-﻿using Aapartment.Business.Dto;
+﻿using Aapartment.Business.Config;
+using Aapartment.Business.Dto;
 using Aapartment.Dal.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Aapartment.Business.ServiceInterfaces
     {
         Task<UserDto> GetByIdAsync(int id);
         Task<User> GetByIdModelAsync(int id);
-        Task<IEnumerable<UserDto>> GetAllPagedAsync(int pagesize, int pagenumber);
+        Task<PagedResult<UserDto>> GetAllPagedAsync(int pagesize, int pagenumber);
         Task<UserDto> CreateUserAsync(UserDto userDto);
         Task<UserDto> CreateAdminAsync(UserDto userDto);
         Task DeleteAsync(int id);

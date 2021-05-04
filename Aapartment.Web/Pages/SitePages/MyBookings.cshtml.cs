@@ -28,8 +28,12 @@ namespace Aapartment.Web.Pages.SitePages
         {
             Bookings.PageNumber = pagenumber;
             Bookings.PageSize = pagesize;
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            Bookings = await bookingApi.GetAllByUserId(Bookings.PageSize, Bookings.PageNumber, userId);
+            string useridvalue = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if(useridvalue != null)
+            {
+                var userId = int.Parse(useridvalue);
+                Bookings = await bookingApi.GetAllByUserId(Bookings.PageSize, Bookings.PageNumber, userId);
+            }
         }
     }
 }

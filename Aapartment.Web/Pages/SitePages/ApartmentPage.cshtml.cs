@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Aapartment.Business.Config;
 using Aapartment.Business.Dto;
@@ -30,7 +31,7 @@ namespace Aapartment.Web.Pages.SitePages
         [BindProperty]
         public int ReviewPageSize { get; set; } = 10;
 
-
+        public string Name { get; set; } = "";
         public ApartmentPageModel(IApartmentsApi apartmentsApi, IRoomsApi roomsApi, IReviewsApi reviewsApi)
         {
             _apartmentsApi = apartmentsApi;
@@ -43,6 +44,8 @@ namespace Aapartment.Web.Pages.SitePages
 
             RoomPageNumber = roomPageNumber;
             RoomPageSize = roomPageSize;
+
+            Name = User.FindFirstValue("AllName");
 
             RoomsForApartment.PageSize = RoomPageSize;
             RoomsForApartment.PageNumber = RoomPageNumber;

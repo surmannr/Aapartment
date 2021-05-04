@@ -1,0 +1,110 @@
+﻿@page "/admin/booking/{id:int}"
+@model Aapartment.Web.Pages.AdminSitePages.EditBookingModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Apartment management";
+}
+
+@if (Model.Booking != null)
+{
+
+    <div class="row">
+        <div class="col-md-12 text-center mt-5 mb-5">
+            <h4 class="display-4">Booking #@Model.Booking.Id</h4>
+        </div>
+
+        <div class="col-md-6 border-bottom pt-1 pb-1">
+            <h4>Firstname:</h4>
+        </div>
+        <div class="col-md-6 border-bottom pt-1 pb-1">
+            <h4 class="text-muted">@Model.UserLogged.FirstName</h4>
+        </div>
+
+        <div class="col-md-6 border-bottom pt-1 pb-1">
+            <h4>Lastname:</h4>
+        </div>
+        <div class="col-md-6 border-bottom pt-1 pb-1">
+            <h4 class="text-muted">@Model.UserLogged.LastName</h4>
+        </div>
+
+        <div class="col-md-6 border-bottom pt-1 pb-1">
+            <h4>Booking date:</h4>
+        </div>
+        <div class="col-md-6 border-bottom pt-1 pb-1">
+            <h4 class="text-muted">@Model.Booking.StartDate.ToString("yyyy.MM.dd.") - @Model.Booking.EndDate.ToString("yyyy.MM.dd.")</h4>
+        </div>
+
+        <div class="col-md-6 border-bottom pt-1 pb-1">
+            <h4>Number of people:</h4>
+        </div>
+        <div class="col-md-6 border-bottom pt-1 pb-1">
+            <h4 class="text-muted">@Model.Booking.NumberOfAdults adult(s), @Model.Booking.NumberOfChildren child(ren)</h4>
+        </div>
+
+        <div class="col-md-6 border-bottom pt-1 pb-1">
+            <h4>Apartment name:</h4>
+        </div>
+        <div class="col-md-6 border-bottom pt-1 pb-1">
+            <h4 class="text-muted">@Model.Booking.ApartmentName</h4>
+        </div>
+
+        <div class="col-md-6 border-bottom pt-1 pb-1">
+            <h4>Room number:</h4>
+        </div>
+        <div class="col-md-6 border-bottom pt-1 pb-1">
+            <h4 class="text-muted">@Model.Booking.RoomNumber</h4>
+        </div>
+
+        <div class="col-md-6 border-bottom pt-1 pb-1">
+            <h4>Sum price:</h4>
+        </div>
+        <div class="col-md-6 border-bottom pt-1 pb-1">
+            <h4 class="text-muted">@Model.Booking.SumPrice.ToString("N0")$</h4>
+        </div>
+
+        <div class="col-md-6 border-bottom pt-1 pb-1">
+            <h4>Paid?</h4>
+        </div>
+        <div class="col-md-6 border-bottom pt-1 pb-1 justify-content-center justify-content-md-start">
+            <div class="form-check form-switch d-flex justify-content-center justify-content-md-start" id="checkdiv">
+                <input class="form-check-input" type="checkbox" id="ispaid" name="IsPaid" checked="@Model.Booking.IsPaid">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-auto d-flex justify-content-center mt-4">
+                <a onclick="modifyStatusClick()" class="btn btn-dark">Modify</a>
+            </div>
+        </div>
+        
+    </div>
+
+}
+<div aria-live="polite" aria-atomic="true" class="bg-danger position-relative bd-example-toasts ">
+    <div class="toast-container position-absolute top-0 start-50 translate-middle-x p-3" id="toastPlacement">
+        <div class="toast bg-danger">
+            <div class="toast-body" id="failedUserModify">
+                Hello, world! This is a toast message.
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function modifyStatusClick() {
+        var ispaid = document.getElementById("ispaid").checked;
+
+        $.ajax({
+            url: 'http://localhost:41873/api/bookings/' + @Model.Booking.Id + '?ispaid=' + ispaid,
+            method: 'PATCH',
+            success: function (result) {
+                window.location.href = "/admin/booking-management";
+            },
+            error: function (error) {
+                $('#failedUserModify').text('Error: the new status is not valid.')
+                $('.toast').toast('show');
+                console.log(error);
+            }
+        });
+    }
+</script>
+

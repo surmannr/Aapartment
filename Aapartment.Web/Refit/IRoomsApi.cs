@@ -12,6 +12,9 @@ namespace Aapartment.Web.Refit
         [Get("")]
         Task<IEnumerable<RoomDto>> GetAll([Query] int size, [Query] int page);
 
+        [Get("/all")]
+        Task<IEnumerable<RoomDto>> GetAllWithoutPagingByApartmentId([Query] int apartmentid);
+
         [Get("/aid/{id}")]
         Task<IEnumerable<RoomDto>> GetAllByApartmentId(int id, [Query] int size, [Query] int page);
 

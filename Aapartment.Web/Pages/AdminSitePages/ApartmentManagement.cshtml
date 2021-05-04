@@ -18,8 +18,9 @@
                 <th scope="col">Name</th>
                 <th scope="col">Country</th>
                 <th scope="col">City</th>
-                <th scope="col">Ratings</th>
-                <th scope="col">Image name</th>
+                <th class="text-center" scope="col">Ratings</th>
+                <th class="text-center" scope="col">Image name</th>
+                <th class="text-center" scope="col">Rooms</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -31,7 +32,7 @@
                     <td>@apartment.Name</td>
                     <td>@apartment.Address.Country</td>
                     <td>@apartment.Address.City</td>
-                    <td>
+                    <td class="text-center">
                         @for (int i = 0; i < apartment.Ratings; i++)
                         {
                             <i style="font-size: 1rem; color: #FDCC0D" class="bi bi-star-fill m-1"></i>
@@ -41,8 +42,11 @@
                             <i style="font-size: 1rem; color: #FDCC0D" class="bi bi-star m-1"></i>
                         }
                     </td>
-                    <td>@apartment.ImageName</td>
-                    <td>
+                    <td class="text-center">@apartment.ImageName</td>
+                    <td class="text-center">
+                        <a class="me-2 text-dark" asp-page="/AdminSitePages/AddRoomToApartment" asp-route-id="@apartment.Id"><i class="fas fa-clipboard-list"></i></a>
+                    </td>
+                    <td class="text-center">
                         <a class="me-2 text-dark" asp-page="/AdminSitePages/CreateOrEditApartment" asp-route-id="@apartment.Id"><i class="fas fa-edit text-center"></i></a>
                         <a class="text-danger" onclick="setSelectedId(@apartment.Id)" data-bs-toggle="modal" data-bs-target="#Dialog"><i class="fas fa-minus-circle"></i></a>
                     </td>
@@ -55,8 +59,13 @@
 }
 else
 {
-    <h5 class="display-5">Nincs megjelenítendő adat.</h5>
+    <h5 class="display-5">There aren't any apartments in the database.</h5>
 }
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <a class="btn btn-secondary" asp-page="/AdminSitePages/CreateOrEditApartment">Create a new apartment <i class="fas fa-minus-plus"></i></a>
+    </div>
+</div>
 <paging total-records="Model.Apartments.AllResultsCount"
         page-no="Model.Apartments.PageNumber"
         page-size="Model.Apartments.PageSize"
