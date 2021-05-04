@@ -30,6 +30,9 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Google.Apis.Auth;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Google.Apis.Auth.AspNetCore3;
 
 namespace Aapartment.Web
 {
@@ -90,14 +93,24 @@ namespace Aapartment.Web
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.MinimumSameSitePolicy = SameSiteMode.Lax;
             });
 
-            services.AddAuthentication().AddFacebook(facebookOptions =>
-            {
-                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-            }).AddCookie(p => p.SlidingExpiration = true);
+            services.AddAuthentication()
+                .AddFacebook(facebookOptions =>
+                {
+                    facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                    facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                })
+                .AddCookie(p => p.SlidingExpiration = true)
+                .AddGoogle(options =>
+                 {
+                     IConfigurationSection googleAuthNSection =
+                         Configuration.GetSection("Authentication:Google");
+
+                     options.ClientId = googleAuthNSection["ClientId"];
+                     options.ClientSecret = googleAuthNSection["ClientSecret"];
+                 });
 
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddTransient<IEmailSender, EmailSender>();
@@ -195,10 +208,9 @@ namespace Aapartment.Web
             {
                 app.UseExceptionHandler("/Error");
             }
-
-            app.UseCookiePolicy();
-
             app.UseHttpsRedirection();
+            app.UseCookiePolicy();
+ 
             app.UseStaticFiles();
             app.UseSession();
             app.UseRouting();
@@ -230,6 +242,8 @@ namespace Aapartment.Web
         {
             options.MapToStatusCode<DbNullException>(StatusCodes.Status404NotFound);
             options.MapToStatusCode<QueryParamsNullException>(StatusCodes.Status400BadRequest);
+
+            options.MapToStatusCode<Exception>(StatusCodes.Status500InternalServerError);
         }
         
     }

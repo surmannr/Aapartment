@@ -37,7 +37,7 @@ namespace Aapartment.Web.Pages.AdminSitePages
             Booking = await bookingsApi.GetById(Id);
             if(Booking != null)
             {
-                UserLogged = await userApi.GetById(Booking.Id);
+                UserLogged = await userApi.GetById(Booking.UserId);
             }
             FinalPage();
         }

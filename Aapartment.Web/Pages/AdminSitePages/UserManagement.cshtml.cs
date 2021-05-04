@@ -20,7 +20,7 @@ namespace Aapartment.Web.Pages.AdminSitePages
         }
         [BindProperty]
         public PagedResult<UserDto> Users { get; set; } = new PagedResult<UserDto>();
-        public async Task OnGet(int pageNumber = 1, int pageSize = 20)
+        public async Task OnGet(int pageNumber = 1, int pageSize = 10)
         {
             Users.PageNumber = pageNumber;
             Users.PageSize = pageSize;

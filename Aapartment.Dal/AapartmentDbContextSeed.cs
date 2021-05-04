@@ -8,6 +8,7 @@ namespace Aapartment.Dal
 {
     partial class AapartmentDbContext
     {
+        
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new ApartmentEntityConfiguration());

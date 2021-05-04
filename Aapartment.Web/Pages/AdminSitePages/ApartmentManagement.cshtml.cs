@@ -22,7 +22,7 @@ namespace Aapartment.Web.Pages.AdminSitePages
         [BindProperty]
         public PagedResult<ApartmentDto> Apartments { get; set; } = new PagedResult<ApartmentDto>();
 
-        public async Task OnGet(int pageNumber = 1, int pageSize = 20)
+        public async Task OnGet(int pageNumber = 1, int pageSize = 10)
         {
             Apartments.PageNumber = pageNumber;
             Apartments.PageSize = pageSize;
